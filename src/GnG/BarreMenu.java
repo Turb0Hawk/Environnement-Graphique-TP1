@@ -1,3 +1,5 @@
+package GnG;
+
 import java.awt.event.*;
 import javax.swing.*;
 
