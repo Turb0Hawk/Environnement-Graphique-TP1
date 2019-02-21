@@ -16,6 +16,8 @@ public class InterfacePrincipale extends JFrame {
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		setIconImage( iconeFenetre.getImage()  );
 		this.add( toolbar, BorderLayout.NORTH );
+		
+		setSize( new Dimension(1000,800) );
 		placerFenetre();
 	}
 
