@@ -9,6 +9,10 @@ public class InterfacePrincipale extends JFrame {
 	public InterfacePrincipale() {
 		super( nomFichier + "- GnG not Gimp" );
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		
+		this.add( new BarreMenu(), BorderLayout.NORTH );
+		
+		this.add( new PanneauDessin() );
 	}
 
 	private void placerFenetre() {
