@@ -1,14 +1,22 @@
+package GnG;
 import java.awt.*;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
 
 public class InterfacePrincipale extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
+	ImageIcon iconeFenetre = new ImageIcon(InterfacePrincipale.class.getResource("Images\\icon.png"));
+	BarreOutils toolbar = new BarreOutils();
 
 	public InterfacePrincipale() {
 		super( nomFichier + "- GnG not Gimp" );
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		setIconImage( iconeFenetre.getImage()  );
+		this.add( toolbar, BorderLayout.NORTH );
+		placerFenetre();
 	}
 
 	private void placerFenetre() {
@@ -28,5 +36,10 @@ public class InterfacePrincipale extends JFrame {
 		setSize( largeur, hauteur );
 		// positionner la fenêtre au centre de l'écran
 		setLocationRelativeTo( null );
+	}
+
+	public void changerTitre(String nom) {
+		this.nomFichier = nom;
+		this.setTitle( nomFichier + "- GnG not Gimp" ); 
 	}
 }

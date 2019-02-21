@@ -1,3 +1,4 @@
+package GnG;
 
 public class Main {
 
