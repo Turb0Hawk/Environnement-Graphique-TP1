@@ -3,23 +3,30 @@ package GnG;
 import java.awt.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class InterfacePrincipale extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
 	ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
+	JPanel panelBarreOutils = new JPanel(new GridBagLayout());
+	GridBagConstraints constraints = new GridBagConstraints();
 
 	public InterfacePrincipale() {
 		super( nomFichier + "- GnG not Gimp" );
 
+		constraints.gridx = 10;
+		constraints.gridy = 3;
 		setSize( new Dimension( 1000, 800 ) );
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		setIconImage( iconeFenetre.getImage() );
+		
+		panelBarreOutils.add(new BarreOutils(), constraints );
 
-		add( new BarreMenu(), BorderLayout.NORTH );
-		add( new BarreOutils(), BorderLayout.SOUTH );
-		add( new PanneauDessin() );
+		setJMenuBar( new BarreMenu() );
+		add( new PanneauDessin());
+		add( panelBarreOutils, BorderLayout.NORTH);
 
 		placerFenetre();
 	}
