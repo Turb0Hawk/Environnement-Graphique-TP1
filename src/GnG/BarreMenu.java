@@ -11,6 +11,7 @@ public class BarreMenu extends JMenuBar {
 		super();
 
 		JMenu menuFichier = new JMenu( "Fichier" );
+		JMenu menuPropos = new JMenu( "À propos" );
 
 		JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
 		itemNouv.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK ) );
@@ -30,6 +31,6 @@ public class BarreMenu extends JMenuBar {
 		menuFichier.add( itemQuit );
 
 		this.add( menuFichier );
-
+		this.add( menuPropos );
 	}
 }

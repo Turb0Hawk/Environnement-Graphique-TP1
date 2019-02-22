@@ -8,24 +8,26 @@ import javax.swing.*;
 public class BarreOutils extends JToolBar {
 	private static final long serialVersionUID = 1407475899641651758L;
 
-	JButton btnOvale = new JButton();
-	JButton btnRectangle = new JButton();
-	JButton btnTrait = new JButton();
+	JToggleButton btnOvale = new JToggleButton();
+	JToggleButton btnRectangle = new JToggleButton();
+	JToggleButton btnTrait = new JToggleButton();
 	JToggleButton btnVide = new JToggleButton();
 
 	ImageIcon iconeOvale = new ImageIcon( BarreOutils.class.getResource( "Images\\ovale.png" ) );
 	ImageIcon iconeRectangle = new ImageIcon( BarreOutils.class.getResource( "Images\\rectangle.png" ) );
 	ImageIcon iconeTrait = new ImageIcon( BarreOutils.class.getResource( "Images\\trait.png" ) );
 	ImageIcon iconeVide = new ImageIcon( BarreOutils.class.getResource( "Images\\none.png" ) );
+	ImageIcon iconeVideSel = new ImageIcon( BarreOutils.class.getResource( "Images\\nonePressed.png" ) );
 
 	JPanel panelRemplissage = new JPanel();
 	JPanel panelTrait = new JPanel();
 
+	ButtonGroup groupeForme = new ButtonGroup();
 	ButtonGroup groupeRemplissage = new ButtonGroup();
 	ButtonGroup groupeTrait = new ButtonGroup();
 
-	JToggleButton[] btnsRemplissage = new JToggleButton[6];
-	JToggleButton[] btnsTrait = new JToggleButton[6];
+	JToggleButton[] btnsCouleurRemplissage = new JToggleButton[6];
+	JToggleButton[] btnsCouleurTrait = new JToggleButton[6];
 	String[] couleurs = { "#000000", "#ffcfea", "#feffbe", "#cbffe6", "#afe9ff", "#bfb9ff" };
 	String[] nomCouleurs = { "noir noirci", "rose songes d'été", "jaune canari", "vaporGreen TM",
 			"blue A E S T H E T I C", "fushia dépressif" };
@@ -44,7 +46,12 @@ public class BarreOutils extends JToolBar {
 		btnTrait.setIcon( iconeTrait );
 		btnTrait.setToolTipText( "Outil pour dessiner des traits" );
 
+		groupeForme.add( btnOvale );
+		groupeForme.add( btnRectangle );
+		groupeForme.add( btnTrait );
+
 		btnVide.setIcon( iconeVide );
+		btnVide.setSelectedIcon( iconeVideSel );
 		btnVide.setToolTipText( "Aucun Remplissage" );
 		btnVide.setPreferredSize( new Dimension( 32, 32 ) );
 
@@ -54,26 +61,27 @@ public class BarreOutils extends JToolBar {
 		panelTrait.add( new JLabel( "Trait" ) );
 		panelTrait.setSize( new Dimension( 300, 40 ) );
 
-		for ( int i = 0; i < couleurs.length; ++i ) {
-			btnsRemplissage[i] = new JToggleButton();
-			btnsRemplissage[i].setToolTipText( nomCouleurs[i] );
-			btnsRemplissage[i].setBackground( Color.decode( couleurs[i] ) );
-			btnsRemplissage[i].setPreferredSize( new Dimension( 32, 32 ) );
-			groupeRemplissage.add( btnsRemplissage[i] );
-			panelRemplissage.add( btnsRemplissage[i] );
+		for ( int j = 0; j < couleurs.length; ++j ) {
+			btnsCouleurRemplissage[j] = new JToggleButton();
+			btnsCouleurRemplissage[j].setToolTipText( nomCouleurs[j] );
+			btnsCouleurRemplissage[j].setBackground( Color.decode( couleurs[j] ) );
+			btnsCouleurRemplissage[j].setPreferredSize( new Dimension( 32, 32 ) );
+			groupeRemplissage.add( btnsCouleurRemplissage[j] );
+			panelRemplissage.add( btnsCouleurRemplissage[j] );
 
-			btnsTrait[i] = new JToggleButton();
-			btnsTrait[i].setToolTipText( nomCouleurs[i] );
-			btnsTrait[i].setBackground( Color.decode( couleurs[i] ) );
-			btnsTrait[i].setPreferredSize( new Dimension( 32, 32 ) );
-			groupeTrait.add( btnsTrait[i] );
-			panelTrait.add( btnsTrait[i] );
+			btnsCouleurTrait[j] = new JToggleButton();
+			btnsCouleurTrait[j].setToolTipText( nomCouleurs[j] );
+			btnsCouleurTrait[j].setBackground( Color.decode( couleurs[j] ) );
+			btnsCouleurTrait[j].setPreferredSize( new Dimension( 32, 32 ) );
+			groupeTrait.add( btnsCouleurTrait[j] );
+			panelTrait.add( btnsCouleurTrait[j] );
 		}
 		groupeRemplissage.add( btnVide );
 		panelRemplissage.add( btnVide );
 
-		btnsRemplissage[1].setSelected( true );
-		btnsTrait[1].setSelected( true );
+		btnTrait.setSelected( true );
+		btnsCouleurTrait[0].setSelected( true );
+		btnVide.setSelected( true );
 
 		add( btnTrait );
 		add( btnRectangle );
