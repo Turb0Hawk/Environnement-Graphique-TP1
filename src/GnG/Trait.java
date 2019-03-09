@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;;
 
-public class Trait extends Forme{
+public class Trait extends Forme {
 	protected Graphics2D g2d;
 	protected int x2;
 	protected int y2;

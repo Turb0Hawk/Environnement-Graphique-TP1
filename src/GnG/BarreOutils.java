@@ -106,15 +106,15 @@ public class BarreOutils extends JToolBar implements ActionListener {
 
 	public void actionPerformed( ActionEvent e ) {
 		if ( e.getSource() == btnTrait ) {
-			InterfacePrincipale.setFormeCourrante( new Trait() );
+			InterfacePrincipale.setFormeCourrante( 0 );
 		}
 
 		if ( e.getSource() == btnRectangle ) {
-			InterfacePrincipale.setFormeCourrante( new Rectangle() );
+			InterfacePrincipale.setFormeCourrante( 2 );
 		}
 
 		if ( e.getSource() == btnOvale ) {
-			InterfacePrincipale.setFormeCourrante( new Ovale() );
+			InterfacePrincipale.setFormeCourrante( 1 );
 		}
 
 		if ( e.getSource() == btnVide ) {

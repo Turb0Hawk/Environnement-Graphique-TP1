@@ -8,21 +8,28 @@ import javax.swing.JPanel;
 public class InterfacePrincipale extends JFrame {
 
 
-	public static Forme formeCourrante;
-	public static Color contourCourrant;
-	public static Color remplissageCourrant;
+	private static int formeCourrante;
+	private static Color contourCourrant;
+	private static Color remplissageCourrant;
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
 	ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
 	JPanel panelBarreOutils = new JPanel(new GridBagLayout());
 	GridBagConstraints constraints = new GridBagConstraints();
 	
-	public static Forme getFormeCourrante() {
+	public static int getFormeCourrante() {
 		return formeCourrante;
 	}
 
-	public static void setFormeCourrante( Forme formeCourrante ) {
-		InterfacePrincipale.formeCourrante = formeCourrante;
+	/**
+	 * @param forme
+	 * 0 = trait,
+	 * 1 = ovale,
+	 * 2 = rectange
+	 */
+	public static void setFormeCourrante( int forme ) {
+		if (forme >= 0 && forme <= 2)
+		InterfacePrincipale.formeCourrante = forme;
 	}
 
 	public static Color getContourCourrant() {

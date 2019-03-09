@@ -5,8 +5,26 @@ import java.awt.Graphics;
 
 public abstract class Forme {
 
+	public int getXInit() {
+		return xInit;
+	}
+
+	public void setXInit( int xInit ) {
+		this.xInit = xInit;
+	}
+
+	public int getYInit() {
+		return yInit;
+	}
+
+	public void setYInit( int yInit ) {
+		this.yInit = yInit;
+	}
+
 	protected int x1;
 	protected int y1;
+	protected int xInit;
+	protected int yInit;
 	
 	protected float strokeWidth = 5.0f;
 
@@ -55,8 +73,8 @@ public abstract class Forme {
 	}
 
 	public void setPosInitiale( int x, int y ) {
-		this.x1 = x;
-		this.y1 = y;
+		this.xInit = x;
+		this.yInit = y;
 	}
 
 
