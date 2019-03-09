@@ -5,6 +5,30 @@ import java.awt.Graphics;
 
 public abstract class Forme {
 
+	public int getX2() {
+		return x2;
+	}
+
+	public void setX2( int x2 ) {
+		this.x2 = x2;
+	}
+
+	public int getY2() {
+		return y2;
+	}
+
+	public void setY2( int y2 ) {
+		this.y2 = y2;
+	}
+
+	public int getyInit() {
+		return yInit;
+	}
+
+	public void setyInit( int yInit ) {
+		this.yInit = yInit;
+	}
+
 	public int getXInit() {
 		return xInit;
 	}
@@ -23,6 +47,8 @@ public abstract class Forme {
 
 	protected int x1;
 	protected int y1;
+	protected int x2;
+	protected int y2;
 	protected int xInit;
 	protected int yInit;
 	
@@ -37,6 +63,8 @@ public abstract class Forme {
 
 	public Forme( int x, int y ) {
 		super();
+		this.setXInit( x );
+		this.setYInit( y );
 		this.setX1( x );
 		this.setY1( y );
 	}
