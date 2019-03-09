@@ -30,18 +30,11 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	}
 
 	@Override
-	public void paintComponent( Graphics g ) {
-		super.paintComponent( g );
-		// Conversion en un contexte 2D
-		Graphics2D g2d = (Graphics2D) g;
-
-		// TODO continuer methode
-	}
-
-	@Override
 	public void mouseDragged( MouseEvent e ) {
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
-		// big TODO boyo
+        repaint();
+        formeTemp.tracer( getGraphics() );
+		
 	}
 
 	@Override
@@ -62,8 +55,6 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 
 	@Override
 	public void mousePressed( MouseEvent e ) {
-		//formeTemp.setContour( InterfacePrincipale.getContourCourrant() );
-		//formeTemp.setRemplissage(InterfacePrincipale.getRemplissageCourrant());
 		if ( InterfacePrincipale.getFormeCourrante() == 1 ) {
 
 			formeTemp = new Ovale( e.getX(), e.getY() );
@@ -80,7 +71,12 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	public void mouseReleased( MouseEvent e ) {
 
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
-		formes.add( formeTemp );
-		formeTemp.tracer( this.getGraphics() );
+        formes.add( formeTemp );
+        if ( formes.size() > 0 ) {
+            for ( Forme forme : formes ) {
+                forme.tracer( this.getGraphics() );
+            } 
+        }
+        formeTemp.tracer( getGraphics() );
 	}
 }
