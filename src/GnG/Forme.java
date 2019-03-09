@@ -1,6 +1,5 @@
 package GnG;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Forme {
@@ -28,8 +27,8 @@ public abstract class Forme {
 	
 	protected float strokeWidth = 5.0f;
 
-	protected Color contour;
-	protected Color remplissage;
+	protected int contour;
+	protected int remplissage;
 	
 	public Forme() {
 		super();
@@ -41,19 +40,19 @@ public abstract class Forme {
 		this.setY1( y );
 	}
 	
-		public Color getContour() {
+		public int getContour() {
 		return contour;
 	}
 
-	public void setContour( Color contour ) {
+	public void setContour( int contour ) {
 		this.contour = contour;
 	}
 
-	public Color getRemplissage() {
+	public int getRemplissage() {
 		return remplissage;
 	}
 
-	public void setRemplissage( Color remplissage ) {
+	public void setRemplissage( int remplissage ) {
 		this.remplissage = remplissage;
 	}
 	public float getStrokeWidth() {

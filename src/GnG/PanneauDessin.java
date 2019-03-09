@@ -1,10 +1,8 @@
 package GnG;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -64,6 +62,8 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 
 	@Override
 	public void mousePressed( MouseEvent e ) {
+		//formeTemp.setContour( InterfacePrincipale.getContourCourrant() );
+		//formeTemp.setRemplissage(InterfacePrincipale.getRemplissageCourrant());
 		if ( InterfacePrincipale.getFormeCourrante() == 1 ) {
 
 			formeTemp = new Ovale( e.getX(), e.getY() );

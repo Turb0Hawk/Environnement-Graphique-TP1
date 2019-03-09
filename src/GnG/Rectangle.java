@@ -1,6 +1,7 @@
 package GnG;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -10,13 +11,15 @@ public class Rectangle extends Forme {
 	protected Graphics2D g2d;
 	protected int largeur;
 	protected int hauteur;
-	
+
 	public Rectangle() {
 		super();
 	}
 
 	public Rectangle( int x, int y ) {
 		super( x, y );
+		setContour( InterfacePrincipale.getContourCourrant() );
+		setRemplissage( InterfacePrincipale.getRemplissageCourrant() );
 	}
 
 	public int getLargeur() {
@@ -49,22 +52,14 @@ public class Rectangle extends Forme {
 		g2d = (Graphics2D) g;
 		g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 		g2d.setStroke( new BasicStroke( strokeWidth ) );
-		//following code pas ce que le prof veu mais je crois que sa vas [etre actually mieux je sais pas ?
-		g2d.setColor( contour );
-		if ( remplissage != null ) {
-			g2d.setPaint( remplissage );
+		g2d.setColor( Color.decode(BarreOutils.couleurs[contour]) );
+		if ( remplissage >= 0 ) {
+			g2d.drawRect( x1, y1, largeur, hauteur );
+			g2d.setColor( Color.decode(BarreOutils.couleurs[remplissage]) );
+			g2d.fillRect( x1, y1, largeur, hauteur );
+		} else {
+			g2d.drawRect( x1, y1, largeur, hauteur );
 		}
-		g2d.drawRect( x1, y1, largeur, hauteur );
-
-		/*selon ce que le prof veut ????????
-		 * if ( remplissage != null ) {
-		 * 		g2d.setColor( remplissage );
-				g2d.fillRect( x1, y1, largeur, hauteur );
-			} else {
-				g2d.setColor( contour );
-				g2d.drawRect( x1, y1, largeur, hauteur );
-			}
-		 */
 	}
 
 }
