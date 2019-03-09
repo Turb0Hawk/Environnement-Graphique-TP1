@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EventListener;
 
 import javax.swing.*;
 
@@ -32,8 +31,8 @@ public class BarreOutils extends JToolBar implements ActionListener {
 
 	JToggleButton[] btnsCouleurRemplissage = new JToggleButton[6];
 	JToggleButton[] btnsCouleurTrait = new JToggleButton[6];
-	String[] couleurs = { "#000000", "#ffcfea", "#feffbe", "#cbffe6", "#afe9ff", "#bfb9ff" };
-	String[] nomCouleurs = { "noir noirci", "rose songes d'été", "jaune canari", "vaporGreen TM",
+	public static String[] couleurs = { "#000000", "#ffcfea", "#feffbe", "#cbffe6", "#afe9ff", "#bfb9ff" };
+	public static String[] nomCouleurs = { "noir noirci", "rose songes d'été", "jaune canari", "vaporGreen TM",
 			"blue A E S T H E T I C", "fushia dépressif" };
 
 	public BarreOutils() {
@@ -118,24 +117,20 @@ public class BarreOutils extends JToolBar implements ActionListener {
 		}
 
 		if ( e.getSource() == btnVide ) {
-			InterfacePrincipale.setRemplissageCourrant( null );
+			InterfacePrincipale.setRemplissageCourrant( -1 );
 		}
-		
-		if(e.getSource() == btnsCouleurRemplissage) {
-			for ( JToggleButton btn : btnsCouleurRemplissage ) {
-				if(e.getSource() == btn) {
-					InterfacePrincipale.setRemplissageCourrant( btn.getBackground() );
-					break;
-				}
+
+		for (  int i = 0; i < btnsCouleurRemplissage.length; ++i ) {
+			if ( e.getSource() == btnsCouleurRemplissage[i] ) {
+				InterfacePrincipale.setRemplissageCourrant( i );
+				break;
 			}
 		}
-		
-		if(e.getSource() == btnsCouleurTrait) {
-			for ( JToggleButton btn : btnsCouleurTrait ) {
-				if(e.getSource() == btn) {
-					InterfacePrincipale.setContourCourrant( btn.getBackground() );
-					break;
-				}
+
+		for ( int i = 0; i < btnsCouleurTrait.length; ++i  ) {
+			if ( e.getSource() == btnsCouleurTrait[i] ) {
+				InterfacePrincipale.setContourCourrant( i);
+				break;
 			}
 		}
 

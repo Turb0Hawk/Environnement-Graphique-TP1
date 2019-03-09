@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 public class InterfacePrincipale extends JFrame {
 
 
-	private static int formeCourrante;
-	private static Color contourCourrant;
-	private static Color remplissageCourrant;
+	private static int formeCourrante = 0;
+	private static int contourCourrant = 0;
+	private static int remplissageCourrant = -1;
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
 	ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
@@ -28,23 +28,24 @@ public class InterfacePrincipale extends JFrame {
 	 * 2 = rectange
 	 */
 	public static void setFormeCourrante( int forme ) {
-		if (forme >= 0 && forme <= 2)
-		InterfacePrincipale.formeCourrante = forme;
+		if (forme >= 0 && forme <= 2) {
+			InterfacePrincipale.formeCourrante = forme;
+		}
 	}
 
-	public static Color getContourCourrant() {
+	public static int getContourCourrant() {
 		return contourCourrant;
 	}
 
-	public static void setContourCourrant( Color contourCourrant ) {
+	public static void setContourCourrant( int contourCourrant ) {
 		InterfacePrincipale.contourCourrant = contourCourrant;
 	}
 
-	public static Color getRemplissageCourrant() {
+	public static int getRemplissageCourrant() {
 		return remplissageCourrant;
 	}
 
-	public static void setRemplissageCourrant( Color remplissageCourrant ) {
+	public static void setRemplissageCourrant( int remplissageCourrant ) {
 		InterfacePrincipale.remplissageCourrant = remplissageCourrant;
 	}
 	
