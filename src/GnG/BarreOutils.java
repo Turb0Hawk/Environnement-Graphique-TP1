@@ -120,16 +120,16 @@ public class BarreOutils extends JToolBar implements ActionListener {
 			InterfacePrincipale.setRemplissageCourrant( -1 );
 		}
 
-		for (  int i = 0; i < btnsCouleurRemplissage.length; ++i ) {
+		for ( int i = 0; i < btnsCouleurRemplissage.length; ++i ) {
 			if ( e.getSource() == btnsCouleurRemplissage[i] ) {
 				InterfacePrincipale.setRemplissageCourrant( i );
 				break;
 			}
 		}
 
-		for ( int i = 0; i < btnsCouleurTrait.length; ++i  ) {
+		for ( int i = 0; i < btnsCouleurTrait.length; ++i ) {
 			if ( e.getSource() == btnsCouleurTrait[i] ) {
-				InterfacePrincipale.setContourCourrant( i);
+				InterfacePrincipale.setContourCourrant( i );
 				break;
 			}
 		}

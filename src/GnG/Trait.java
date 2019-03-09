@@ -10,7 +10,7 @@ public class Trait extends Forme {
 	protected Graphics2D g2d;
 	protected int x2;
 	protected int y2;
-	
+
 	public Trait() {
 		super();
 	}
@@ -22,13 +22,13 @@ public class Trait extends Forme {
 	}
 
 	@Override
-	public void tracer(Graphics g) {
+	public void tracer( Graphics g ) {
 		g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setStroke(new BasicStroke(strokeWidth));
-		g2d.setColor( Color.decode(BarreOutils.couleurs[contour]) );
-		if(remplissage >=0) {
-			 g2d.setPaint(Color.decode(BarreOutils.couleurs[remplissage]) );
+		g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+		g2d.setStroke( new BasicStroke( strokeWidth ) );
+		g2d.setColor( Color.decode( BarreOutils.couleurs[contour] ) );
+		if ( remplissage >= 0 ) {
+			g2d.setPaint( Color.decode( BarreOutils.couleurs[remplissage] ) );
 		}
 		g2d.drawLine( x1, y1, x2, y2 );
 	}

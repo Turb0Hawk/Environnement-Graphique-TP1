@@ -4,6 +4,30 @@ import java.awt.Graphics;
 
 public abstract class Forme {
 
+	protected int x1;
+	protected int y1;
+	protected int x2;
+	protected int y2;
+	protected int xInit;
+	protected int yInit;
+
+	protected float strokeWidth = 5.0f;
+
+	protected int contour;
+	protected int remplissage;
+
+	public Forme() {
+		super();
+	}
+
+	public Forme( int x, int y ) {
+		super();
+		this.setXInit( x );
+		this.setYInit( y );
+		this.setX1( x );
+		this.setY1( y );
+	}
+
 	public int getX2() {
 		return x2;
 	}
@@ -44,31 +68,7 @@ public abstract class Forme {
 		this.yInit = yInit;
 	}
 
-	protected int x1;
-	protected int y1;
-	protected int x2;
-	protected int y2;
-	protected int xInit;
-	protected int yInit;
-	
-	protected float strokeWidth = 5.0f;
-
-	protected int contour;
-	protected int remplissage;
-	
-	public Forme() {
-		super();
-	}
-
-	public Forme( int x, int y ) {
-		super();
-		this.setXInit( x );
-		this.setYInit( y );
-		this.setX1( x );
-		this.setY1( y );
-	}
-	
-		public int getContour() {
+	public int getContour() {
 		return contour;
 	}
 
@@ -83,6 +83,7 @@ public abstract class Forme {
 	public void setRemplissage( int remplissage ) {
 		this.remplissage = remplissage;
 	}
+
 	public float getStrokeWidth() {
 		return strokeWidth;
 	}
@@ -104,18 +105,15 @@ public abstract class Forme {
 		this.yInit = y;
 	}
 
-
 	public int getX1() {
 		return x1;
 
 	}
 
-
 	public int getY1() {
 		return y1;
 
 	}
-
 
 	public abstract void setParametres( int x1, int y1, int x2, int y2 );
 

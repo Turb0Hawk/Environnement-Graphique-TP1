@@ -1,8 +1,6 @@
 package GnG;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -32,9 +30,9 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	@Override
 	public void mouseDragged( MouseEvent e ) {
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
-        repaint();
-        formeTemp.tracer( getGraphics() );
-		
+		repaint();
+		formeTemp.tracer( getGraphics() );
+
 	}
 
 	@Override
@@ -71,12 +69,12 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	public void mouseReleased( MouseEvent e ) {
 
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
-        formes.add( formeTemp );
-        if ( formes.size() > 0 ) {
-            for ( Forme forme : formes ) {
-                forme.tracer( this.getGraphics() );
-            } 
-        }
-        formeTemp.tracer( getGraphics() );
+		formes.add( formeTemp );
+		if ( formes.size() > 0 ) {
+			for ( Forme forme : formes ) {
+				forme.tracer( this.getGraphics() );
+			}
+		}
+		formeTemp.tracer( getGraphics() );
 	}
 }

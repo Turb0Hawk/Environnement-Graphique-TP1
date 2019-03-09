@@ -23,14 +23,14 @@ public class Ovale extends Rectangle {
 		g2d = (Graphics2D) g;
 		g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 		g2d.setStroke( new BasicStroke( strokeWidth ) );
-		
-		g2d.setColor( Color.decode(BarreOutils.couleurs[contour]) );	
-		if ( remplissage >=0 ) {
+
+		g2d.setColor( Color.decode( BarreOutils.couleurs[contour] ) );
+		if ( remplissage >= 0 ) {
 			g2d.drawOval( x1, y1, largeur, hauteur );
-			g2d.setColor(  Color.decode(BarreOutils.couleurs[remplissage]) );
+			g2d.setColor( Color.decode( BarreOutils.couleurs[remplissage] ) );
 			g2d.fillOval( x1, y1, largeur, hauteur );
 		} else {
-			
+
 			g2d.drawOval( x1, y1, largeur, hauteur );
 		}
 	}

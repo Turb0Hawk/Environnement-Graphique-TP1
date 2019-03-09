@@ -6,29 +6,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class InterfacePrincipale extends JFrame {
-
-
 	private static int formeCourrante = 0;
 	private static int contourCourrant = 0;
 	private static int remplissageCourrant = -1;
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
 	ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
-	JPanel panelBarreOutils = new JPanel(new GridBagLayout());
+	JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
 	GridBagConstraints constraints = new GridBagConstraints();
-	
+
 	public static int getFormeCourrante() {
 		return formeCourrante;
 	}
 
 	/**
 	 * @param forme
-	 * 0 = trait,
-	 * 1 = ovale,
-	 * 2 = rectange
+	 *            0 = trait, 1 = ovale, 2 = rectange
 	 */
 	public static void setFormeCourrante( int forme ) {
-		if (forme >= 0 && forme <= 2) {
+		if ( forme >= 0 && forme <= 2 ) {
 			InterfacePrincipale.formeCourrante = forme;
 		}
 	}
@@ -48,7 +44,7 @@ public class InterfacePrincipale extends JFrame {
 	public static void setRemplissageCourrant( int remplissageCourrant ) {
 		InterfacePrincipale.remplissageCourrant = remplissageCourrant;
 	}
-	
+
 	public InterfacePrincipale() {
 		super( nomFichier + "- GnG not Gimp" );
 
@@ -57,12 +53,12 @@ public class InterfacePrincipale extends JFrame {
 		setSize( new Dimension( 1000, 800 ) );
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		setIconImage( iconeFenetre.getImage() );
-		
-		panelBarreOutils.add(new BarreOutils(), constraints );
+
+		panelBarreOutils.add( new BarreOutils(), constraints );
 
 		setJMenuBar( new BarreMenu() );
-		add( new PanneauDessin());
-		add( panelBarreOutils, BorderLayout.NORTH);
+		add( new PanneauDessin() );
+		add( panelBarreOutils, BorderLayout.NORTH );
 
 		placerFenetre();
 	}

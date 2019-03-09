@@ -41,24 +41,23 @@ public class Rectangle extends Forme {
 	@Override
 	public void setParametres( int x1, int y1, int x2, int y2 ) {
 
-		if (x1 > x2) {
-			this.setX1(x2);
-			this.setX2(x1);
+		if ( x1 > x2 ) {
+			this.setX1( x2 );
+			this.setX2( x1 );
 		} else {
 			this.setX1( x1 );
-			this.setX2(x2);
+			this.setX2( x2 );
 		}
-		
-		if (y1 > y2) {
-			this.setY1(y2);
-			this.setY2(y1);
+
+		if ( y1 > y2 ) {
+			this.setY1( y2 );
+			this.setY2( y1 );
 		} else {
 			this.setY1( y1 );
 			this.setY2( y2 );
 		}
 		this.setHauteur( (int) Math.abs( (double) this.y2 - this.y1 ) );
 		this.setLargeur( (int) Math.abs( (double) this.x2 - this.x1 ) );
-		
 
 	}
 
@@ -67,10 +66,10 @@ public class Rectangle extends Forme {
 		g2d = (Graphics2D) g;
 		g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 		g2d.setStroke( new BasicStroke( strokeWidth ) );
-		g2d.setColor( Color.decode(BarreOutils.couleurs[contour]) );
+		g2d.setColor( Color.decode( BarreOutils.couleurs[contour] ) );
 		if ( remplissage >= 0 ) {
 			g2d.drawRect( x1, y1, largeur, hauteur );
-			g2d.setColor( Color.decode(BarreOutils.couleurs[remplissage]) );
+			g2d.setColor( Color.decode( BarreOutils.couleurs[remplissage] ) );
 			g2d.fillRect( x1, y1, largeur, hauteur );
 		} else {
 			g2d.drawRect( x1, y1, largeur, hauteur );
