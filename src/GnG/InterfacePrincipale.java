@@ -7,12 +7,40 @@ import javax.swing.JPanel;
 
 public class InterfacePrincipale extends JFrame {
 
+
+	public static Forme formeCourrante;
+	public static Color contourCourrant;
+	public static Color remplissageCourrant;
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
 	ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
 	JPanel panelBarreOutils = new JPanel(new GridBagLayout());
 	GridBagConstraints constraints = new GridBagConstraints();
+	
+	public static Forme getFormeCourrante() {
+		return formeCourrante;
+	}
 
+	public static void setFormeCourrante( Forme formeCourrante ) {
+		InterfacePrincipale.formeCourrante = formeCourrante;
+	}
+
+	public static Color getContourCourrant() {
+		return contourCourrant;
+	}
+
+	public static void setContourCourrant( Color contourCourrant ) {
+		InterfacePrincipale.contourCourrant = contourCourrant;
+	}
+
+	public static Color getRemplissageCourrant() {
+		return remplissageCourrant;
+	}
+
+	public static void setRemplissageCourrant( Color remplissageCourrant ) {
+		InterfacePrincipale.remplissageCourrant = remplissageCourrant;
+	}
+	
 	public InterfacePrincipale() {
 		super( nomFichier + "- GnG not Gimp" );
 

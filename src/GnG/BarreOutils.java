@@ -3,9 +3,13 @@ package GnG;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
+
 import javax.swing.*;
 
-public class BarreOutils extends JToolBar {
+public class BarreOutils extends JToolBar implements ActionListener {
 	private static final long serialVersionUID = 1407475899641651758L;
 
 	JToggleButton btnOvale = new JToggleButton();
@@ -68,6 +72,7 @@ public class BarreOutils extends JToolBar {
 			btnsCouleurRemplissage[j].setPreferredSize( new Dimension( 32, 32 ) );
 			groupeRemplissage.add( btnsCouleurRemplissage[j] );
 			panelRemplissage.add( btnsCouleurRemplissage[j] );
+			btnsCouleurRemplissage[j].addActionListener( this );
 
 			btnsCouleurTrait[j] = new JToggleButton();
 			btnsCouleurTrait[j].setToolTipText( nomCouleurs[j] );
@@ -75,6 +80,7 @@ public class BarreOutils extends JToolBar {
 			btnsCouleurTrait[j].setPreferredSize( new Dimension( 32, 32 ) );
 			groupeTrait.add( btnsCouleurTrait[j] );
 			panelTrait.add( btnsCouleurTrait[j] );
+			btnsCouleurTrait[j].addActionListener( this );
 		}
 		groupeRemplissage.add( btnVide );
 		panelRemplissage.add( btnVide );
@@ -90,6 +96,48 @@ public class BarreOutils extends JToolBar {
 		add( panelTrait, BorderLayout.WEST );
 		addSeparator();
 		add( panelRemplissage, BorderLayout.WEST );
+
+		btnOvale.addActionListener( this );
+		btnRectangle.addActionListener( this );
+		btnTrait.addActionListener( this );
+		btnVide.addActionListener( this );
+
+	}
+
+	public void actionPerformed( ActionEvent e ) {
+		if ( e.getSource() == btnTrait ) {
+			InterfacePrincipale.setFormeCourrante( new Trait() );
+		}
+
+		if ( e.getSource() == btnRectangle ) {
+			InterfacePrincipale.setFormeCourrante( new Rectangle() );
+		}
+
+		if ( e.getSource() == btnOvale ) {
+			InterfacePrincipale.setFormeCourrante( new Ovale() );
+		}
+
+		if ( e.getSource() == btnVide ) {
+			InterfacePrincipale.setRemplissageCourrant( null );
+		}
+		
+		if(e.getSource() == btnsCouleurRemplissage) {
+			for ( JToggleButton btn : btnsCouleurRemplissage ) {
+				if(e.getSource() == btn) {
+					InterfacePrincipale.setRemplissageCourrant( btn.getBackground() );
+					break;
+				}
+			}
+		}
+		
+		if(e.getSource() == btnsCouleurTrait) {
+			for ( JToggleButton btn : btnsCouleurTrait ) {
+				if(e.getSource() == btn) {
+					InterfacePrincipale.setContourCourrant( btn.getBackground() );
+					break;
+				}
+			}
+		}
 
 	}
 }
