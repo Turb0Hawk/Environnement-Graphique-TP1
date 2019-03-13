@@ -2,6 +2,10 @@ package GnG;
 
 import java.awt.Graphics;
 
+/**
+ * @author Dave Nicolas Parr, David Ringuet
+ *
+ */
 public abstract class Forme {
 
 	protected int x1;

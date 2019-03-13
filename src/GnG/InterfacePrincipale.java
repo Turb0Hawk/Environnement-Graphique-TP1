@@ -5,6 +5,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * @author Dave Nicolas Parr, David Ringuet Date: 15/02/2019 Fichier Main.java
+ *
+ *         Description de la classe: Classe contenant les instruction de
+ *         l'interface du programme GnG
+ */
 public class InterfacePrincipale extends JFrame {
 	private static int formeCourrante = 0;
 	private static int contourCourrant = 0;
@@ -41,6 +47,9 @@ public class InterfacePrincipale extends JFrame {
 		return remplissageCourrant;
 	}
 
+	/**
+	 * @param remplissageCourrant
+	 */
 	public static void setRemplissageCourrant( int remplissageCourrant ) {
 		InterfacePrincipale.remplissageCourrant = remplissageCourrant;
 	}

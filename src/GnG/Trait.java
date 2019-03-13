@@ -6,6 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;;
 
+/**
+ * @author Dave Nicolas Parr, David Ringuet
+ */
 public class Trait extends Forme {
 	protected Graphics2D g2d;
 	protected int x2;
@@ -21,6 +24,9 @@ public class Trait extends Forme {
 		setRemplissage( InterfacePrincipale.getRemplissageCourrant() );
 	}
 
+	/**
+	 * @see GnG.Forme#tracer(java.awt.Graphics)
+	 */
 	@Override
 	public void tracer( Graphics g ) {
 		g2d = (Graphics2D) g;

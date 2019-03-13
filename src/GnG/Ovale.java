@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ * @author Dave Nicolas Parr, David Ringuet
+ *
+ */
 public class Ovale extends Rectangle {
 
 	public Ovale() {
