@@ -16,16 +16,20 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	public PanneauDessin() {
 		super();
 		this.setBackground( Color.LIGHT_GRAY );
-
 		addMouseListener( this );
 		addMouseMotionListener( this );
 	}
-
-	public PanneauDessin( ArrayList<Forme> sauvegarde ) {
-		super();
-		this.setBackground( Color.LIGHT_GRAY );
-
-		// TODO lire la sauvegarder et dessiner les formes
+	
+	public void ouvrirFic() {
+		//TODO
+	}
+	
+	public void ouvrirFic(Object obj/*TODO */) {
+		//TODO
+	}
+	
+	public void sauvegarderFic(boolean sous) {
+		//TODO
 	}
 	
 	@Override
