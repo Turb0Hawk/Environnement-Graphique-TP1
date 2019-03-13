@@ -35,10 +35,9 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	@Override
 	protected void paintComponent( Graphics g ) {
 		super.paintComponent( g );
-		
-		if ( formes.size() > 0 ) {
+		if ( !formes.isEmpty() ) {
 			for ( Forme forme : formes ) {
-				forme.tracer( this.getGraphics() );
+				forme.tracer( g );
 			}
 		}
 	}
@@ -46,8 +45,9 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	@Override
 	public void mouseDragged( MouseEvent e ) {
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
-		formeTemp.tracer( getGraphics() );
 		repaint();
+		formeTemp.tracer( getGraphics() );
+		
 	}
 
 	@Override
@@ -82,10 +82,9 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 
 	@Override
 	public void mouseReleased( MouseEvent e ) {
-
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
 		formes.add( formeTemp );
 		formeTemp.tracer( getGraphics() );
-		repaint();
+		
 	}
 }
