@@ -3,6 +3,8 @@ package GnG;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
+import java.io.File;
+import java.nio.file.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -24,11 +26,11 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 		//TODO
 	}
 	
-	public void ouvrirFic(Object obj/*TODO */) {
+	public void ouvrirFic(File fic) {
 		//TODO
 	}
 	
-	public void sauvegarderFic(boolean sous) {
+	public void sauvegarderFic(boolean sous, File fic) {
 		//TODO
 	}
 	

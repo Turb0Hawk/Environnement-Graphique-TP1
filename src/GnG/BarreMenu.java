@@ -19,6 +19,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			UIManager.getIcon( "FileView.floppyDriveIcon" ) );
 	private JMenuItem itemOuv = new JMenuItem( "Ouvrir fichier...", UIManager.getIcon( "FileView.directoryIcon" ) );
 	private JMenuItem itemQuit = new JMenuItem( "Quitter" );
+	public static JFileChooser choixFichier;
 
 	public BarreMenu() {
 		super();
@@ -52,16 +53,22 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 
 		if ( e.getSource() == itemNouv ) {
 			InterfacePrincipale.pan.ouvrirFic();
+
 		} else if ( e.getSource() == itemSauv ) {
-			InterfacePrincipale.pan.sauvegarderFic( false );
-		} else if ( e.getSource() == itemSauvSous ) {
-			InterfacePrincipale.pan.sauvegarderFic( true );
-		} else if ( e.getSource() == itemOuv ) {
-			File fic;
-			if ( choixFichier.showOpenDialog( null ) == JFileChooser.APPROVE_OPTION ) {
-				fic = choixFichier.getSelectedFile();
-				InterfacePrincipale.pan.ouvrirFic( fic );
+			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
+				InterfacePrincipale.pan.sauvegarderFic( false, choixFichier.getSelectedFile() );
 			}
+
+		} else if ( e.getSource() == itemSauvSous ) {
+
+			InterfacePrincipale.pan.sauvegarderFic( true, choixFichier.getSelectedFile() );
+
+		} else if ( e.getSource() == itemOuv ) {
+			choixFichier = null;
+			if ( choixFichier.showOpenDialog( null ) == JFileChooser.APPROVE_OPTION ) {
+				InterfacePrincipale.pan.ouvrirFic( choixFichier.getSelectedFile() );
+			}
+
 		} else if ( e.getSource() == itemQuit ) {
 			System.exit( 0 );
 		}
@@ -71,54 +78,38 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 	 * @author Farida Classe interne de gestion d'évènement du menu fichier
 	 *
 	 */
-	/*private class GestionFichier implements ActionListener {
-		JFileChooser choixFichier;
-
-		public GestionFichier() {
-			choixFichier = new JFileChooser();
-			// choix des filtres
-			FileNameExtensionFilter filtreTexte = new FileNameExtensionFilter( "Fichiers textes *.txt", "txt" );
-			FileNameExtensionFilter fichierWord = new FileNameExtensionFilter( "Documents Word ", "doc", "docx" );
-			// ajouter le filtre aux boîtes de dialogue
-			choixFichier.addChoosableFileFilter( filtreTexte );
-			choixFichier.addChoosableFileFilter( fichierWord );
-			// choisir le filtre texte par défaut, au lieu de tous les fichiers
-			choixFichier.setFileFilter( filtreTexte );
-
-		}
-
-		@Override
-		public void actionPerformed( ActionEvent e ) {
-			if ( e.getSource() == optionEnregistrer )
-				enregistrer();
-			else if ( e.getSource() == optionOuvrir )
-				ouvrir();
-		}
-
-		private void enregistrer() {
-			// Afficher la boîte de dialogue saveDialog
-			if ( choixFichier.showSaveDialog( texte ) == JFileChooser.APPROVE_OPTION ) {// ouvre
-																						// la
-																						// boîte
-																						// dans
-																						// le
-																						// composant
-																						// texte
-				// récupérer le nom du fichier
-				File f = choixFichier.getSelectedFile();
-				// enregistrer
-			}
-		}
-
-		private void ouvrir() {
-			// Afficher la boîte de dialogue openDialog
-			// JFileChooser choixFichier = new JFileChooser();
-			if ( choixFichier.showOpenDialog( texte ) == JFileChooser.APPROVE_OPTION ) {
-				// récupérer le nom du fichier
-				File f = choixFichier.getSelectedFile();
-				// ouvrir
-			}
-		}
-
-	}*/
+	/*
+	 * private class GestionFichier implements ActionListener { JFileChooser
+	 * choixFichier;
+	 * 
+	 * public GestionFichier() { choixFichier = new JFileChooser(); // choix des
+	 * filtres FileNameExtensionFilter filtreTexte = new
+	 * FileNameExtensionFilter( "Fichiers textes *.txt", "txt" );
+	 * FileNameExtensionFilter fichierWord = new FileNameExtensionFilter(
+	 * "Documents Word ", "doc", "docx" ); // ajouter le filtre aux boîtes de
+	 * dialogue choixFichier.addChoosableFileFilter( filtreTexte );
+	 * choixFichier.addChoosableFileFilter( fichierWord ); // choisir le filtre
+	 * texte par défaut, au lieu de tous les fichiers
+	 * choixFichier.setFileFilter( filtreTexte );
+	 * 
+	 * }
+	 * 
+	 * @Override public void actionPerformed( ActionEvent e ) { if (
+	 * e.getSource() == optionEnregistrer ) enregistrer(); else if (
+	 * e.getSource() == optionOuvrir ) ouvrir(); }
+	 * 
+	 * private void enregistrer() { // Afficher la boîte de dialogue saveDialog
+	 * if ( choixFichier.showSaveDialog( texte ) == JFileChooser.APPROVE_OPTION
+	 * ) {// ouvre // la // boîte // dans // le // composant // texte //
+	 * récupérer le nom du fichier File f = choixFichier.getSelectedFile(); //
+	 * enregistrer } }
+	 * 
+	 * private void ouvrir() { // Afficher la boîte de dialogue openDialog //
+	 * JFileChooser choixFichier = new JFileChooser(); if (
+	 * choixFichier.showOpenDialog( texte ) == JFileChooser.APPROVE_OPTION ) {
+	 * // récupérer le nom du fichier File f = choixFichier.getSelectedFile();
+	 * // ouvrir } }
+	 * 
+	 * }
+	 */
 }
