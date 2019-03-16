@@ -7,11 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 /**
+ * Fichier Ovale.java
+ * Description de la classe: classe qui crée la forme Ovale
  * @author Dave Nicolas Parr, David Ringuet 
  * @Date: 15/02/2019 
  * @version 3
- * Fichier Ovale.java
- * Description de la classe: classe qui crée la forme Ovale
+ * 
  */
 public class Ovale extends Rectangle {
 

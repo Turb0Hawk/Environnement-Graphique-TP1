@@ -7,6 +7,15 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+/**
+ * Fichier PanneauDessin.java 
+ * Description de la classe: Classe qui sert à la création du panneau qui sert de zone de dessin.
+ * @author Nicolas Parr, David Ringuet
+ * @Date: 15/02/2019
+ * @version 3 
+ * 
+ */
+
 public class PanneauDessin extends JPanel implements MouseListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1729406830849814133L;

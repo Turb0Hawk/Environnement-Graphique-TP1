@@ -1,19 +1,11 @@
-/**
- *@author Dave Nicolas Parr, David Ringuet
- *Date: 15/02/2019
- *Fichier Main.java
- *
- *Description de la classe: Classe principale du package de GnG.
- *Sers à initier l'application.
-*/
 package GnG;
 
 /**
+ * Fichier Main.java
+ * Description de la classe: Classe qui permet de lancer et d'initier le programme
  * @author Dave Nicolas Parr, David Ringuet 
  * @Date: 15/02/2019 
  * @version 1
- * Fichier Main.java
- * Description de la classe: Classe qui permet de lancer et d'initier le programme
  */
 public class Main {
 

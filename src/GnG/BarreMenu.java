@@ -1,22 +1,23 @@
 package GnG;
 
+import java.awt.Dimension;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * @author Dave Nicolas Parr, David Ringuet 
- * @Date: 15/02/2019 
- * @version 3
- * Fichier BarreMenu.java
+ * Fichier BarreMenu.java 
  * Description de la classe: Classe qui construit notre barre de menu
+ * @author Nicolas Parr, David Ringuet
+ * @Date: 15/02/2019
+ * @version 3 
  */
 public class BarreMenu extends JMenuBar implements ActionListener {
 
 	private static final long serialVersionUID = 2L;
 
 	private JMenu menuFichier = new JMenu( "Fichier" );
-	private JMenu menuPropos = new JMenu( "Àpropos" );
+	private JMenuItem menuPropos = new JMenuItem( "Àpropos" );
 	private JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
 	private JMenuItem itemSauv = new JMenuItem( "Enregister", UIManager.getIcon( "FileView.floppyDriveIcon" ) );
 	private JMenuItem itemSauvSous = new JMenuItem( "Enregistrer sous...",
@@ -40,7 +41,10 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		menuFichier.add( itemOuv );
 		menuFichier.addSeparator();
 		menuFichier.add( itemQuit );
-
+		
+		menuPropos.addActionListener( this );
+		menuPropos.setPreferredSize( new Dimension( 200,  this.getPreferredSize().height ));
+		
 		this.add( menuFichier );
 		this.add( menuPropos );
 
@@ -80,7 +84,10 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		} else if ( e.getSource() == itemQuit ) {
 			System.exit( 0 );
 		} else if ( e.getSource() == menuPropos ) {
-			// TODO le menu ï¿½ propos
+			// TODO le menu Àpropos
+			JOptionPane.showMessageDialog( this,
+					"GnG : GnG not Gimp \nCréé par: Nicolas Parr & David Ringuet\n Version: 3.0", "À propos", 
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }

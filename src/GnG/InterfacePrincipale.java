@@ -6,12 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * @author Dave Nicolas Parr, David Ringuet 
- * @Date: 15/02/2019 
- * @version 3
  * Fichier InterfacePrincipale.java
  * Description de la classe: Classe contenant les instruction de
  * l'interface du programme GnG
+ * @author Dave Nicolas Parr, David Ringuet 
+ * @Date: 15/02/2019 
+ * @version 3
  */
 public class InterfacePrincipale extends JFrame {
 	

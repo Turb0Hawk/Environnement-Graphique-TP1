@@ -3,11 +3,11 @@ package GnG;
 import java.awt.Graphics;
 
 /**
- * @author Dave Nicolas Parr, David Ringuet 
- * @Date: 15/02/2019 
- * @version 3
  * Fichier Forme.java
  * Description de la classe: Classe abstraite de base pour décrire un objet d'une forme a dessiner
+ * @author Nicolas Parr, David Ringuet 
+ * @Date: 15/02/2019 
+ * @version 3
  */
 public abstract class Forme {
 

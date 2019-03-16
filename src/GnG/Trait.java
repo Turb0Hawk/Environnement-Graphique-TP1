@@ -7,11 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;;
 
 /**
+ *  Fichier Trait.java
+ * Description de la classe: classe qui crée un trait
  * @author Dave Nicolas Parr, David Ringuet 
  * @Date: 15/02/2019 
  * @version 3
- * Fichier Ovale.java
- * Description de la classe: classe qui crée un trait
+ *
  */
 public class Trait extends Forme {
 	protected Graphics2D g2d;

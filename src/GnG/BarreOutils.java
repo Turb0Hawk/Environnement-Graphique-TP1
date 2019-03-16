@@ -8,11 +8,11 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
+ * Fichier BarreOutils.java 
+ * Description de la classe: Classe pour construire la barre d'outils
  * @author Dave Nicolas Parr, David Ringuet
  * @Date: 15/02/2019
  * @version 3 
- * Fichier BarreOutils.java 
- * Description de la classe: Classe pour construire la barre d'outils
  */
 public class BarreOutils extends JToolBar implements ActionListener {
 	private static final long serialVersionUID = 1407475899641651758L;
