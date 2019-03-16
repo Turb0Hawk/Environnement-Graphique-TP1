@@ -2,7 +2,6 @@ package GnG;
 
 import java.awt.Graphics;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 

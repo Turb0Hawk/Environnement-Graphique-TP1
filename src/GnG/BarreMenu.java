@@ -1,14 +1,10 @@
 package GnG;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.ObjectStreamException;
-import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import outilsjava.*;
