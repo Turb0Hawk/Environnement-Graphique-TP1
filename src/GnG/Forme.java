@@ -1,6 +1,10 @@
 package GnG;
 
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 
 /**
  * Fichier Forme.java
@@ -9,8 +13,10 @@ import java.awt.Graphics;
  * @Date: 15/02/2019 
  * @version 3
  */
-public abstract class Forme {
+public abstract class Forme implements Serializable{
 
+
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */
@@ -163,4 +169,11 @@ public abstract class Forme {
 	 * @param g
 	 */
 	public abstract void tracer( Graphics g );
+
+	public abstract void writeObject( java.io.ObjectOutputStream out ) throws IOException;
+
+	public abstract void readObject( java.io.ObjectInputStream in ) throws IOException, ClassNotFoundException ;
+	
+	public abstract void readObjectNoData() throws ObjectStreamException ;
+	
 }

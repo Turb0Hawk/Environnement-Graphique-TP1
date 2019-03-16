@@ -16,6 +16,10 @@ import java.awt.RenderingHints;
  */
 public class Rectangle extends Forme {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Graphics2D g2d;
 	/**
 	 * la largeur de la forme à dessiner

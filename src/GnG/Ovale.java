@@ -16,6 +16,11 @@ import java.awt.RenderingHints;
  */
 public class Ovale extends Rectangle {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Ovale() {
 		super();
 	}
