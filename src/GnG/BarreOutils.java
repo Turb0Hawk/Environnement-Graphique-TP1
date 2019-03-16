@@ -38,8 +38,8 @@ public class BarreOutils extends JToolBar implements ActionListener {
 	JToggleButton[] btnsCouleurRemplissage = new JToggleButton[6];
 	JToggleButton[] btnsCouleurTrait = new JToggleButton[6];
 	public static String[] couleurs = { "#000000", "#ffcfea", "#feffbe", "#cbffe6", "#afe9ff", "#bfb9ff" };
-	public static String[] nomCouleurs = { "noir noirci", "rose songes d'été", "jaune canari", "vaporGreen TM",
-			"blue A E S T H E T I C", "fushia dépressif" };
+	public static String[] nomCouleurs = { "noir noirci", "rose songes d'ï¿½tï¿½", "jaune canari", "vaporGreen TM",
+			"blue A E S T H E T I C", "fushia dï¿½pressif" };
 
 	public BarreOutils() {
 		super();
@@ -50,7 +50,7 @@ public class BarreOutils extends JToolBar implements ActionListener {
 		btnOvale.setToolTipText( "Outil pour dessiner des Ovales et des cercles" );
 
 		btnRectangle.setIcon( iconeRectangle );
-		btnRectangle.setToolTipText( "Outil pour dessiner des rectangles et des carrés" );
+		btnRectangle.setToolTipText( "Outil pour dessiner des rectangles et des carrï¿½s" );
 
 		btnTrait.setIcon( iconeTrait );
 		btnTrait.setToolTipText( "Outil pour dessiner des traits" );
@@ -110,7 +110,7 @@ public class BarreOutils extends JToolBar implements ActionListener {
 	}
 
 	/**
-	 * méthode interne pour  gérer les évènements de la barre d'outils
+	 * mï¿½thode interne pour  gï¿½rer les ï¿½vï¿½nements de la barre d'outils
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed( ActionEvent e ) {

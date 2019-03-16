@@ -2,8 +2,14 @@ package GnG;
 
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import outilsjava.*;
 
 /**
  * Fichier BarreMenu.java 
@@ -17,7 +23,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = 2L;
 
 	private JMenu menuFichier = new JMenu( "Fichier" );
-	private JMenuItem menuPropos = new JMenuItem( "Àpropos" );
+	private JMenuItem menuPropos = new JMenuItem( "ï¿½propos" );
 	private JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
 	private JMenuItem itemSauv = new JMenuItem( "Enregister", UIManager.getIcon( "FileView.floppyDriveIcon" ) );
 	private JMenuItem itemSauvSous = new JMenuItem( "Enregistrer sous...",
@@ -25,7 +31,6 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 	private JMenuItem itemOuv = new JMenuItem( "Ouvrir fichier...", UIManager.getIcon( "FileView.directoryIcon" ) );
 	private JMenuItem itemQuit = new JMenuItem( "Quitter" );
 	private PanneauDessin panneau;
-	public static JFileChooser choixFichier;
 
 	public BarreMenu( JPanel pan ) {
 		super();
@@ -53,6 +58,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		itemSauvSous.addActionListener( this );
 		itemOuv.addActionListener( this );
 		itemQuit.addActionListener( this );
+
 	}
 
 	public void actionPerformed( ActionEvent e ) {
@@ -64,29 +70,85 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		if ( e.getSource() == itemNouv ) {
 			panneau.getFormes().clear();
 			panneau.paintComponent( panneau.getGraphics() );
+			panneau.setFichierCourant( "" );
+			panneau.getFrame().setName( "Untitled" );
+
+		} else if ( e.getSource() == itemSauvSous
+				|| ( e.getSource() == itemSauv && panneau.getFichierCourant() == "" ) ) {
+
+			ObjectOutputStream fic;
+			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
+
+				if ( ( fic = OutilsFichier.ouvrirFicBinEcriture(
+						choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
+
+					try {
+						fic.writeObject( panneau.getFormes() );
+						OutilsFichier.fermerFicBinEcriture( fic,
+								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
+						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+					} catch ( IOException e1 ) {
+						System.out.println(
+								"Problï¿½me d'ï¿½criture du fichier " + choixFichier.getSelectedFile().getName() );
+						JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
+								"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
+					}
+				}
+			}
 
 		} else if ( e.getSource() == itemSauv ) {
-			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
-				// TODO
-				// panneau.sauvegarderFic( false, choixFichier.getSelectedFile()
-				// );
+
+			ObjectOutputStream fic;
+			if ( ( fic = OutilsFichier.ouvrirFicBinEcriture( panneau.getFichierCourant() ) ) != null ) {
+
+				try {
+					fic.writeObject( panneau.getFormes() );
+					OutilsFichier.fermerFicBinEcriture( fic, panneau.getFichierCourant() );
+				} catch ( IOException e1 ) {
+					System.out.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() + ".gng" );
+					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
+							"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
+				}
 			}
-		} else if ( e.getSource() == itemSauvSous ) {
-			// TODO
-			// panneau.sauvegarderFic( true, choixFichier.getSelectedFile() );
 
 		} else if ( e.getSource() == itemOuv ) {
+
+			ObjectInputStream fic;
 			if ( choixFichier.showOpenDialog( null ) == JFileChooser.APPROVE_OPTION ) {
-				// TODO
-				// panneau.ouvrirFic( choixFichier.getSelectedFile() );
+
+				if ( ( fic = OutilsFichier
+						.ouvrirFicBinLecture( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
+
+					try {
+						panneau.setFormes( (ArrayList) fic.readObject() );
+						OutilsFichier.fermerFicBinLecture( fic,
+								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
+						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+
+					} catch ( IOException e2 ) {
+
+						System.out.println(
+								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
+								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
+					} catch ( ClassNotFoundException e1 ) {
+
+						System.out.println(
+								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
+								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
+					}
+				}
 			}
 
 		} else if ( e.getSource() == itemQuit ) {
 			System.exit( 0 );
 		} else if ( e.getSource() == menuPropos ) {
-			// TODO le menu Àpropos
+			// TODO le menu ï¿½propos
 			JOptionPane.showMessageDialog( this,
-					"GnG : GnG not Gimp \nCréé par: Nicolas Parr & David Ringuet\n Version: 3.0", "À propos", 
+					"GnG : GnG not Gimp \nCrï¿½ï¿½ par: Nicolas Parr & David Ringuet\n Version: 3.0", "ï¿½ propos", 
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

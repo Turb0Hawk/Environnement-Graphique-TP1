@@ -23,6 +23,7 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 	private ArrayList<Forme> formes = new ArrayList<>();
 	private Forme formeTemp;
 	private JFrame frame;
+	private String fichierCourant = "";
 
 	public PanneauDessin( JFrame frame ) {
 		super();
@@ -54,6 +55,14 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 
 	public void setFrame( JFrame frame ) {
 		this.frame = frame;
+	}
+	
+	public String getFichierCourant() {
+		return fichierCourant;
+	}
+
+	public void setFichierCourant( String fichierCourant ) {
+		this.fichierCourant = fichierCourant;
 	}
 
 	@Override

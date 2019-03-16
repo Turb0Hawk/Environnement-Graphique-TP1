@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * Fichier Forme.java
- * Description de la classe: Classe abstraite de base pour décrire un objet d'une forme a dessiner
+ * Description de la classe: Classe abstraite de base pour dï¿½crire un objet d'une forme a dessiner
  * @author Nicolas Parr, David Ringuet 
  * @Date: 15/02/2019 
  * @version 3
@@ -156,7 +156,7 @@ public abstract class Forme implements Serializable{
 	}
 
 	/**
-	 * méthode qui calcule les paramètres nécessaire pour pouvoir dessiner les formes.
+	 * mï¿½thode qui calcule les paramï¿½tres nï¿½cessaire pour pouvoir dessiner les formes.
 	 * @param x1
 	 * @param y1
 	 * @param x2
@@ -165,7 +165,7 @@ public abstract class Forme implements Serializable{
 	public abstract void setParametres( int x1, int y1, int x2, int y2 );
 
 	/**
-	 * Méthode qui permet de tracer la forme.
+	 * Mï¿½thode qui permet de tracer la forme.
 	 * @param g
 	 */
 	public abstract void tracer( Graphics g );

@@ -75,7 +75,7 @@ public class InterfacePrincipale extends JFrame {
 	}
 
 	public InterfacePrincipale() {
-		super( nomFichier + "- GnG not Gimp" );
+		super( nomFichier + " - GnG not Gimp" );
 
 		constraints.gridx = 10;
 		constraints.gridy = 3;
@@ -120,6 +120,6 @@ public class InterfacePrincipale extends JFrame {
 	 */
 	public void changerTitre( String nom ) {
 		nomFichier = nom;
-		this.setTitle( nomFichier + "- GnG not Gimp" );
+		this.setTitle( nomFichier + " - GnG not Gimp" );
 	}
 }
