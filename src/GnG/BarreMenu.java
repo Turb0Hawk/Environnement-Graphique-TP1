@@ -3,6 +3,13 @@ package GnG;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * @author Dave Nicolas Parr, David Ringuet 
+ * @Date: 15/02/2019 
+ * @version 3
+ * Fichier BarreMenu.java
+ * Description de la classe: Classe qui construit notre barre de menu
+ */
 public class BarreMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 2L;

@@ -21,7 +21,10 @@ public class Ovale extends Rectangle {
 		setContour( InterfacePrincipale.getContourCourrant() );
 		setRemplissage( InterfacePrincipale.getRemplissageCourrant() );
 	}
-
+	
+	/**
+	 * @see GnG.Forme#tracer(java.awt.Graphics)
+	 */
 	@Override
 	public void tracer( Graphics g ) {
 		g2d = (Graphics2D) g;

@@ -6,14 +6,28 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * @author Dave Nicolas Parr, David Ringuet Date: 15/02/2019 Fichier Main.java
- *
- *         Description de la classe: Classe contenant les instruction de
- *         l'interface du programme GnG
+ * @author Dave Nicolas Parr, David Ringuet 
+ * @Date: 15/02/2019 
+ * @version 3
+ * Fichier Main.java
+ * Description de la classe: Classe contenant les instruction de
+ * l'interface du programme GnG
  */
 public class InterfacePrincipale extends JFrame {
+	
+	
+	/**
+	 * la forme courante
+	 * 0 = trait, 1 = ovale, 2 = rectangle
+	 */
 	private static int formeCourrante = 0;
+	/**
+	 * la couleur de contour courante
+	 */
 	private static int contourCourrant = 0;
+	/**
+	 * la couleur de remplissage courante
+	 */
 	private static int remplissageCourrant = -1;
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
@@ -21,13 +35,18 @@ public class InterfacePrincipale extends JFrame {
 	JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
 	GridBagConstraints constraints = new GridBagConstraints();
 
+	/**
+	 * @return formeCourrante la forme courante:
+	 * 0 = trait, 1 = ovale, 2 = rectangle
+	 */
 	public static int getFormeCourrante() {
 		return formeCourrante;
 	}
 
 	/**
-	 * @param forme
-	 *            0 = trait, 1 = ovale, 2 = rectange
+	 * @param forme 
+	 * permet de changer la forme courrante choisis:  
+	 * 0 = trait, 1 = ovale, 2 = rectangle
 	 */
 	public static void setFormeCourrante( int forme ) {
 		if ( forme >= 0 && forme <= 2 ) {
@@ -72,6 +91,9 @@ public class InterfacePrincipale extends JFrame {
 		placerFenetre();
 	}
 
+	/**
+	 * petite méthode qui permet de placer la fenêtre dans l'écran
+	 */
 	private void placerFenetre() {
 		int hauteur = getHeight();
 		int largeur = getWidth();
@@ -91,6 +113,10 @@ public class InterfacePrincipale extends JFrame {
 		setLocationRelativeTo( null );
 	}
 
+	/**
+	 * @param nom
+	 * méthode publique pour pouvoir cahnger le nom de la fenêtre.
+	 */
 	public void changerTitre( String nom ) {
 		nomFichier = nom;
 		this.setTitle( nomFichier + "- GnG not Gimp" );

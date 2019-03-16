@@ -11,7 +11,13 @@ import java.awt.RenderingHints;;
  */
 public class Trait extends Forme {
 	protected Graphics2D g2d;
+	/**
+	 * position en x de la fin du trait
+	 */
 	protected int x2;
+	/**
+	 * position en y de la fin du trait
+	 */
 	protected int y2;
 
 	public Trait() {
@@ -39,6 +45,9 @@ public class Trait extends Forme {
 		g2d.drawLine( x1, y1, x2, y2 );
 	}
 
+	/**
+	 * @see GnG.Forme#setParametres(int, int, int, int)
+	 */
 	@Override
 	public void setParametres( int x1, int y1, int x2, int y2 ) {
 		this.setPosInitiale( x1, y1 );

@@ -13,7 +13,13 @@ import java.awt.RenderingHints;
 public class Rectangle extends Forme {
 
 	protected Graphics2D g2d;
+	/**
+	 * la largeur de la forme à dessiner
+	 */
 	protected int largeur;
+	/**
+	 * la hauteur de la forme à dessiner
+	 */
 	protected int hauteur;
 
 	public Rectangle() {
@@ -41,7 +47,10 @@ public class Rectangle extends Forme {
 	public void setHauteur( int hauteur ) {
 		this.hauteur = hauteur;
 	}
-
+	
+	/**
+	 * @see GnG.Forme#setParametres(int, int, int, int)
+	 */
 	@Override
 	public void setParametres( int x1, int y1, int x2, int y2 ) {
 
@@ -64,7 +73,10 @@ public class Rectangle extends Forme {
 		this.setLargeur( (int) Math.abs( (double) this.x2 - this.x1 ) );
 
 	}
-
+	
+	/**
+	 * @see GnG.Forme#tracer(java.awt.Graphics)
+	 */
 	@Override
 	public void tracer( Graphics g ) {
 		g2d = (Graphics2D) g;
