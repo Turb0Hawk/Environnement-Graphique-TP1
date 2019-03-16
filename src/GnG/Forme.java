@@ -1,6 +1,7 @@
 package GnG;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
 /**
  * @author Dave Nicolas Parr, David Ringuet 
@@ -10,7 +11,7 @@ import java.awt.Graphics;
  * Description de la classe: Classe abstraite de base pour décrire un objet d'une forme a dessiner
  */
 public abstract class Forme {
-
+	
 	/**
 	 * 
 	 */
