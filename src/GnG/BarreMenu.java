@@ -4,7 +4,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class BarreMenu extends JMenuBar implements ActionListener {
 /**
  * @author Dave Nicolas Parr, David Ringuet 
  * @Date: 15/02/2019 
@@ -12,11 +11,12 @@ public class BarreMenu extends JMenuBar implements ActionListener {
  * Fichier BarreMenu.java
  * Description de la classe: Classe qui construit notre barre de menu
  */
+public class BarreMenu extends JMenuBar implements ActionListener {
 
 	private static final long serialVersionUID = 2L;
 
 	private JMenu menuFichier = new JMenu( "Fichier" );
-	private JMenu menuPropos = new JMenu( "ï¿½ propos" );
+	private JMenu menuPropos = new JMenu( "Àpropos" );
 	private JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
 	private JMenuItem itemSauv = new JMenuItem( "Enregister", UIManager.getIcon( "FileView.floppyDriveIcon" ) );
 	private JMenuItem itemSauvSous = new JMenuItem( "Enregistrer sous...",
