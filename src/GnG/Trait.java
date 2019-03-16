@@ -23,14 +23,6 @@ public class Trait extends Forme implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected Graphics2D g2d;
-	/**
-	 * position en x de la fin du trait
-	 */
-	protected int x2;
-	/**
-	 * position en y de la fin du trait
-	 */
-	protected int y2;
 
 	public Trait() {
 		super();
@@ -69,6 +61,7 @@ public class Trait extends Forme implements Serializable {
 	
 	@Override
 	public void writeObject( java.io.ObjectOutputStream out ) throws IOException {
+		out.writeInt( 0 );
 		out.writeInt( x1 );
 		out.writeInt( x2 );
 		out.writeInt( y1 );

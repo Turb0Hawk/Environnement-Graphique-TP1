@@ -1,10 +1,12 @@
 package GnG;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -12,11 +14,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import outilsjava.*;
 
 /**
- * Fichier BarreMenu.java 
- * Description de la classe: Classe qui construit notre barre de menu
+ * Fichier BarreMenu.java Description de la classe: Classe qui construit notre
+ * barre de menu
+ * 
  * @author Nicolas Parr, David Ringuet
  * @Date: 15/02/2019
- * @version 3 
+ * @version 3
  */
 public class BarreMenu extends JMenuBar implements ActionListener {
 
@@ -46,10 +49,10 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		menuFichier.add( itemOuv );
 		menuFichier.addSeparator();
 		menuFichier.add( itemQuit );
-		
+
 		menuPropos.addActionListener( this );
-		menuPropos.setPreferredSize( new Dimension( 200,  this.getPreferredSize().height ));
-		
+		menuPropos.setPreferredSize( new Dimension( 200, this.getPreferredSize().height ) );
+
 		this.add( menuFichier );
 		this.add( menuPropos );
 
@@ -60,7 +63,9 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		itemQuit.addActionListener( this );
 
 	}
-
+//TODO fix gng.gng problem,
+//TODO fix quand on overwrite ça le demande dans la console
+//TODO fix quand on overwrite c'est vide
 	public void actionPerformed( ActionEvent e ) {
 		JFileChooser choixFichier = new JFileChooser();
 		FileNameExtensionFilter filtreGng = new FileNameExtensionFilter( "Not Gimp files *.gng", "gng" );
@@ -83,7 +88,10 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 						choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
 
 					try {
-						fic.writeObject( panneau.getFormes() );
+						fic.writeInt( panneau.getFormes().size() );
+						for ( Forme forme : panneau.getFormes() ) {
+							forme.writeObject( fic );
+						}
 						OutilsFichier.fermerFicBinEcriture( fic,
 								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
@@ -103,10 +111,13 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			if ( ( fic = OutilsFichier.ouvrirFicBinEcriture( panneau.getFichierCourant() ) ) != null ) {
 
 				try {
-					fic.writeObject( panneau.getFormes() );
+					for ( Forme forme : panneau.getFormes() ) {
+						forme.writeObject( fic );
+					}
 					OutilsFichier.fermerFicBinEcriture( fic, panneau.getFichierCourant() );
 				} catch ( IOException e1 ) {
-					System.out.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() + ".gng" );
+					System.out
+							.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() );
 					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 							"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 				}
@@ -118,10 +129,34 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			if ( choixFichier.showOpenDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
 				if ( ( fic = OutilsFichier
-						.ouvrirFicBinLecture( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
-
+						.ouvrirFicBinLecture( choixFichier.getSelectedFile().getAbsolutePath() ) ) != null ) {
 					try {
-						panneau.setFormes( (ArrayList) fic.readObject() );
+						// panneau.setFormes( (ArrayList) fic.readObject() );
+						panneau.getFormes().clear();
+						int nbFormes = fic.readInt();
+						for ( int i = 0; i < nbFormes; ++i ) {
+							Forme temp;
+							switch ( fic.readInt() ) {
+							case 0:
+								temp = new Trait();
+								break;
+							case 1:
+								temp = new Rectangle();
+								break;
+							case 2:
+								temp = new Ovale();
+								break;
+							default:
+								throw new IOException();
+							}
+							temp.readObject( fic );
+							panneau.getFormes().add( temp );
+							panneau.repaint();
+						}
+						/*
+						 * for ( Forme forme : panneau.getFormes() ) {
+						 * forme.readObject( fic ); }
+						 */
 						OutilsFichier.fermerFicBinLecture( fic,
 								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
@@ -148,8 +183,8 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		} else if ( e.getSource() == menuPropos ) {
 			// TODO le menu ï¿½propos
 			JOptionPane.showMessageDialog( this,
-					"GnG : GnG not Gimp \nCrï¿½ï¿½ par: Nicolas Parr & David Ringuet\n Version: 3.0", "ï¿½ propos", 
-					JOptionPane.INFORMATION_MESSAGE);
+					"GnG : GnG not Gimp \nCrï¿½ï¿½ par: Nicolas Parr & David Ringuet\n Version: 3.0", "ï¿½ propos",
+					JOptionPane.INFORMATION_MESSAGE );
 		}
 	}
 }

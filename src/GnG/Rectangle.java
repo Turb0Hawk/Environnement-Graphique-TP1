@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 
 /**
  * Fichier Ovale.java
@@ -98,6 +102,40 @@ public class Rectangle extends Forme {
 		} else {
 			g2d.drawRect( x1, y1, largeur, hauteur );
 		}
+	}
+
+	@Override
+	public void writeObject( ObjectOutputStream out ) throws IOException {
+		out.writeInt( 1 );
+		out.writeInt( x1 );
+		out.writeInt( x2 );
+		out.writeInt( y1 );
+		out.writeInt( y2 );
+		out.writeInt( xInit );
+		out.writeInt( yInit );
+		out.writeInt( contour );
+		out.writeInt( remplissage );
+		
+	}
+
+	@Override
+	public void readObject( ObjectInputStream in ) throws IOException, ClassNotFoundException {
+		setX1(in.readInt());
+		setX2(in.readInt());
+		setY1(in.readInt());
+		setY2( in.readInt() );
+		setXInit( in.readInt() );
+		setYInit( in.readInt() );
+		setContour( in.readInt() );
+		setRemplissage( in.readInt() );
+		setParametres( x1, y1, x2, y2 );
+		
+	}
+
+	@Override
+	public void readObjectNoData() throws ObjectStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

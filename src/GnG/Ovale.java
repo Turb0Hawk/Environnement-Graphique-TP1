@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 /**
  * Fichier Ovale.java
@@ -50,4 +52,17 @@ public class Ovale extends Rectangle {
 			g2d.drawOval( x1, y1, largeur, hauteur );
 		}
 	}
+	@Override
+	public void writeObject( ObjectOutputStream out ) throws IOException {
+		out.writeInt( 2 );
+		out.writeInt( x1 );
+		out.writeInt( x2 );
+		out.writeInt( y1 );
+		out.writeInt( y2 );
+		out.writeInt( xInit );
+		out.writeInt( yInit );
+		out.writeInt( contour );
+		out.writeInt( remplissage );		
+	}
+	
 }
