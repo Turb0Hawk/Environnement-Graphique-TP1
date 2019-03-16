@@ -3,37 +3,50 @@ package GnG;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
-import java.io.File;
-import java.nio.file.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
 public class PanneauDessin extends JPanel implements MouseListener, MouseMotionListener {
+
 	private static final long serialVersionUID = 1729406830849814133L;
 
 	private ArrayList<Forme> formes = new ArrayList<>();
 	private Forme formeTemp;
+	private JFrame frame;
 
-	public PanneauDessin() {
+	public PanneauDessin( JFrame frame ) {
 		super();
 		this.setBackground( Color.LIGHT_GRAY );
 		addMouseListener( this );
 		addMouseMotionListener( this );
+		this.frame = frame;
 	}
-	
-	public void ouvrirFic() {
-		//TODO
+
+	public ArrayList<Forme> getFormes() {
+		return formes;
 	}
-	
-	public void ouvrirFic(File fic) {
-		//TODO
+
+	public void setFormes( ArrayList<Forme> formes ) {
+		this.formes = formes;
 	}
-	
-	public void sauvegarderFic(boolean sous, File fic) {
-		//TODO
+
+	public Forme getFormeTemp() {
+		return formeTemp;
 	}
-	
+
+	public void setFormeTemp( Forme formeTemp ) {
+		this.formeTemp = formeTemp;
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame( JFrame frame ) {
+		this.frame = frame;
+	}
+
 	@Override
 	protected void paintComponent( Graphics g ) {
 		super.paintComponent( g );
@@ -49,7 +62,7 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
 		repaint();
 		formeTemp.tracer( getGraphics() );
-		
+
 	}
 
 	@Override
@@ -87,6 +100,6 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 		formeTemp.setParametres( formeTemp.getXInit(), formeTemp.getYInit(), e.getX(), e.getY() );
 		formes.add( formeTemp );
 		formeTemp.tracer( getGraphics() );
-		
+
 	}
 }

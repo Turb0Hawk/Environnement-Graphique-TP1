@@ -14,7 +14,7 @@ public class InterfacePrincipale extends JFrame {
 	private ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
 	private JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
 	private GridBagConstraints constraints = new GridBagConstraints();
-	public static PanneauDessin pan;
+	private PanneauDessin pan;
 
 	public static int getFormeCourrante() {
 		return formeCourrante;
@@ -57,8 +57,8 @@ public class InterfacePrincipale extends JFrame {
 
 		panelBarreOutils.add( new BarreOutils(), constraints );
 
-		setJMenuBar( new BarreMenu() );
-		add( pan = new PanneauDessin() );
+		add( pan = new PanneauDessin( this ) );
+		setJMenuBar( new BarreMenu( pan ) );
 		add( panelBarreOutils, BorderLayout.NORTH );
 
 		placerFenetre();
