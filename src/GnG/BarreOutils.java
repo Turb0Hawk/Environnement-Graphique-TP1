@@ -143,6 +143,5 @@ public class BarreOutils extends JToolBar implements ActionListener {
 				break;
 			}
 		}
-
 	}
 }

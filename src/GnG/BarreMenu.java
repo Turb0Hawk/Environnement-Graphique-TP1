@@ -2,7 +2,9 @@ package GnG;
 
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+public class BarreMenu extends JMenuBar implements ActionListener {
 /**
  * @author Dave Nicolas Parr, David Ringuet 
  * @Date: 15/02/2019 
@@ -10,25 +12,27 @@ import javax.swing.*;
  * Fichier BarreMenu.java
  * Description de la classe: Classe qui construit notre barre de menu
  */
-public class BarreMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 2L;
 
-	public BarreMenu() {
+	private JMenu menuFichier = new JMenu( "Fichier" );
+	private JMenu menuPropos = new JMenu( "ï¿½ propos" );
+	private JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
+	private JMenuItem itemSauv = new JMenuItem( "Enregister", UIManager.getIcon( "FileView.floppyDriveIcon" ) );
+	private JMenuItem itemSauvSous = new JMenuItem( "Enregistrer sous...",
+			UIManager.getIcon( "FileView.floppyDriveIcon" ) );
+	private JMenuItem itemOuv = new JMenuItem( "Ouvrir fichier...", UIManager.getIcon( "FileView.directoryIcon" ) );
+	private JMenuItem itemQuit = new JMenuItem( "Quitter" );
+	private PanneauDessin panneau;
+	public static JFileChooser choixFichier;
+
+	public BarreMenu( JPanel pan ) {
 		super();
+		this.panneau = (PanneauDessin) pan;
 
-		JMenu menuFichier = new JMenu( "Fichier" );
-		JMenu menuPropos = new JMenu( "À propos" );
-
-		JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
 		itemNouv.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK ) );
-		JMenuItem itemSauv = new JMenuItem( "Enregister", UIManager.getIcon( "FileView.floppyDriveIcon" ) );
 		itemSauv.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK ) );
-		JMenuItem itemSauvSous = new JMenuItem( "Enregistrer sous...",
-				UIManager.getIcon( "FileView.floppyDriveIcon" ) );
-		JMenuItem itemOuv = new JMenuItem( "Ouvrir fichier...", UIManager.getIcon( "FileView.directoryIcon" ) );
 		itemOuv.setAccelerator( KeyStroke.getKeyStroke( KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK ) );
-		JMenuItem itemQuit = new JMenuItem( "Quitter" );
 
 		menuFichier.add( itemNouv );
 		menuFichier.add( itemSauv );
@@ -39,5 +43,44 @@ public class BarreMenu extends JMenuBar {
 
 		this.add( menuFichier );
 		this.add( menuPropos );
+
+		itemNouv.addActionListener( this );
+		itemSauv.addActionListener( this );
+		itemSauvSous.addActionListener( this );
+		itemOuv.addActionListener( this );
+		itemQuit.addActionListener( this );
+	}
+
+	public void actionPerformed( ActionEvent e ) {
+		JFileChooser choixFichier = new JFileChooser();
+		FileNameExtensionFilter filtreGng = new FileNameExtensionFilter( "Not Gimp files *.gng", "gng" );
+		choixFichier.addChoosableFileFilter( filtreGng );
+		choixFichier.setFileFilter( filtreGng );
+
+		if ( e.getSource() == itemNouv ) {
+			panneau.getFormes().clear();
+			panneau.paintComponent( panneau.getGraphics() );
+
+		} else if ( e.getSource() == itemSauv ) {
+			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
+				// TODO
+				// panneau.sauvegarderFic( false, choixFichier.getSelectedFile()
+				// );
+			}
+		} else if ( e.getSource() == itemSauvSous ) {
+			// TODO
+			// panneau.sauvegarderFic( true, choixFichier.getSelectedFile() );
+
+		} else if ( e.getSource() == itemOuv ) {
+			if ( choixFichier.showOpenDialog( null ) == JFileChooser.APPROVE_OPTION ) {
+				// TODO
+				// panneau.ouvrirFic( choixFichier.getSelectedFile() );
+			}
+
+		} else if ( e.getSource() == itemQuit ) {
+			System.exit( 0 );
+		} else if ( e.getSource() == menuPropos ) {
+			// TODO le menu ï¿½ propos
+		}
 	}
 }

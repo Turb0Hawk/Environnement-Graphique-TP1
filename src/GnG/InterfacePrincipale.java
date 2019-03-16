@@ -31,9 +31,10 @@ public class InterfacePrincipale extends JFrame {
 	private static int remplissageCourrant = -1;
 	private static final long serialVersionUID = 1L;
 	private static String nomFichier = "Untitled";
-	ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
-	JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
-	GridBagConstraints constraints = new GridBagConstraints();
+	private ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
+	private JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
+	private GridBagConstraints constraints = new GridBagConstraints();
+	private PanneauDessin pan;
 
 	/**
 	 * @return formeCourrante la forme courante:
@@ -84,8 +85,8 @@ public class InterfacePrincipale extends JFrame {
 
 		panelBarreOutils.add( new BarreOutils(), constraints );
 
-		setJMenuBar( new BarreMenu() );
-		add( new PanneauDessin() );
+		add( pan = new PanneauDessin( this ) );
+		setJMenuBar( new BarreMenu( pan ) );
 		add( panelBarreOutils, BorderLayout.NORTH );
 
 		placerFenetre();
