@@ -5,48 +5,76 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Fichier InterfacePrincipale.java
+ * Description de la classe: Classe contenant les instruction de
+ * l'interface du programme GnG
+ * @author Dave Nicolas Parr, David Ringuet 
+ * @Date: 15/02/2019 
+ * @version 3
+ */
 public class InterfacePrincipale extends JFrame {
-	private static int formeCourrante = 0;
-	private static int contourCourrant = 0;
-	private static int remplissageCourrant = -1;
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5348510686696217552L;
+	
+	/**
+	 * la forme courante
+	 * 0 = trait, 1 = ovale, 2 = rectangle
+	 */
+	private int formeCourrante = 0;
+	/**
+	 * la couleur de contour courante
+	 */
+	private int contourCourrant = 0;
+	/**
+	 * la couleur de remplissage courante
+	 */
+	private int remplissageCourrant = -1;
 	private static String nomFichier = "Untitled";
-	ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
-	JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
-	GridBagConstraints constraints = new GridBagConstraints();
+	private ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
+	private JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
+	private GridBagConstraints constraints = new GridBagConstraints();
+	private PanneauDessin pan;
 
-	public static int getFormeCourrante() {
+	/**
+	 * @return formeCourrante la forme courante:
+	 * 0 = trait, 1 = ovale, 2 = rectangle
+	 */
+	public int getFormeCourrante() {
 		return formeCourrante;
 	}
 
 	/**
-	 * @param forme
-	 *            0 = trait, 1 = ovale, 2 = rectange
+	 * @param forme 
+	 * permet de changer la forme courrante choisis:  
+	 * 0 = trait, 1 = ovale, 2 = rectangle
 	 */
-	public static void setFormeCourrante( int forme ) {
+	public void setFormeCourrante( int forme ) {
 		if ( forme >= 0 && forme <= 2 ) {
-			InterfacePrincipale.formeCourrante = forme;
+			formeCourrante = forme;
 		}
 	}
 
-	public static int getContourCourrant() {
-		return contourCourrant;
+	public int getContourCourrant() {
+		return this.contourCourrant;
 	}
 
-	public static void setContourCourrant( int contourCourrant ) {
-		InterfacePrincipale.contourCourrant = contourCourrant;
+	public void setContourCourrant( int contourCourrant ) {
+		this.contourCourrant = contourCourrant;
 	}
 
-	public static int getRemplissageCourrant() {
-		return remplissageCourrant;
+	public int getRemplissageCourrant() {
+		return this.remplissageCourrant;
 	}
 
-	public static void setRemplissageCourrant( int remplissageCourrant ) {
-		InterfacePrincipale.remplissageCourrant = remplissageCourrant;
+	/**
+	 * @param remplissageCourrant
+	 */
+	public void setRemplissageCourrant( int remplissageCourrant ) {
+		this.remplissageCourrant = remplissageCourrant;
 	}
 
 	public InterfacePrincipale() {
-		super( nomFichier + "- GnG not Gimp" );
+		super( nomFichier + " - GnG not Gimp" );
 
 		constraints.gridx = 10;
 		constraints.gridy = 3;
@@ -54,15 +82,18 @@ public class InterfacePrincipale extends JFrame {
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		setIconImage( iconeFenetre.getImage() );
 
-		panelBarreOutils.add( new BarreOutils(), constraints );
+		panelBarreOutils.add( new BarreOutils(this), constraints );
 
-		setJMenuBar( new BarreMenu() );
-		add( new PanneauDessin() );
+		add( pan = new PanneauDessin( this ) );
+		setJMenuBar( new BarreMenu( pan ) );
 		add( panelBarreOutils, BorderLayout.NORTH );
 
 		placerFenetre();
 	}
 
+	/**
+	 * petite méthode qui permet de placer la fenêtre dans l'écran
+	 */
 	private void placerFenetre() {
 		int hauteur = getHeight();
 		int largeur = getWidth();
@@ -82,8 +113,12 @@ public class InterfacePrincipale extends JFrame {
 		setLocationRelativeTo( null );
 	}
 
+	/**
+	 * @param nom
+	 * méthode publique pour pouvoir cahnger le nom de la fenêtre.
+	 */
 	public void changerTitre( String nom ) {
 		nomFichier = nom;
-		this.setTitle( nomFichier + "- GnG not Gimp" );
+		this.setTitle( nomFichier + " - GnG not Gimp" );
 	}
 }

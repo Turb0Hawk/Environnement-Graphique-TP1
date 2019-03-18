@@ -1,19 +1,58 @@
 package GnG;
 
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 
-public abstract class Forme {
+/**
+ * Fichier Forme.java
+ * Description de la classe: Classe abstraite de base pour d�crire un objet d'une forme a dessiner
+ * @author Nicolas Parr, David Ringuet 
+ * @Date: 15/02/2019 
+ * @version 3
+ */
+public abstract class Forme implements Serializable{
 
+
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	protected int x1;
+	/**
+	 * 
+	 */
 	protected int y1;
+	/**
+	 * 
+	 */
 	protected int x2;
+	/**
+	 * 
+	 */
 	protected int y2;
+	/**
+	 * position x initiale
+	 */
 	protected int xInit;
+	/**
+	 *  position y initiale
+	 */
 	protected int yInit;
 
+	/**
+	 * largeur du trait
+	 */
 	protected float strokeWidth = 5.0f;
 
+	/**
+	 *  la couleur de contour courante
+	 */
 	protected int contour;
+	/**
+	 * la couleur de remplissage courante
+	 */
 	protected int remplissage;
 
 	public Forme() {
@@ -115,7 +154,25 @@ public abstract class Forme {
 
 	}
 
+	/**
+	 * m�thode qui calcule les param�tres n�cessaire pour pouvoir dessiner les formes.
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
 	public abstract void setParametres( int x1, int y1, int x2, int y2 );
 
+	/**
+	 * M�thode qui permet de tracer la forme.
+	 * @param g
+	 */
 	public abstract void tracer( Graphics g );
+
+	public abstract void writeObject( java.io.ObjectOutputStream out ) throws IOException;
+
+	public abstract void readObject( java.io.ObjectInputStream in ) throws IOException, ClassNotFoundException ;
+	
+	public abstract void readObjectNoData() throws ObjectStreamException ;
+	
 }
