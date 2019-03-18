@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import outilsjava.*;
 
 /**
  * Fichier BarreMenu.java Description de la classe: Classe qui construit notre
@@ -78,7 +77,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			ObjectOutputStream fic;
 			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
-				if ( ( fic = OutilsFichier.ouvrirFicBinEcriture(
+				if ( ( fic = ouvrirFileWrite(
 						choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
 
 					try {
@@ -86,13 +85,13 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 						for ( Forme forme : panneau.getFormes() ) {
 							forme.writeObject( fic );
 						}
-						OutilsFichier.fermerFicBinEcriture( fic,
+						fermerFileWrite( fic,
 								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 					} catch ( IOException e1 ) {
 						System.out.println(
-								"Problï¿½me d'ï¿½criture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Problème d'écriture du fichier " + choixFichier.getSelectedFile().getName() );
 						JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 								"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 					}
@@ -102,15 +101,15 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		} else if ( e.getSource() == itemSauv ) {
 
 			ObjectOutputStream fic;
-			if ( ( fic = OutilsFichier.ouvrirFicBinEcriture( panneau.getFichierCourant() ) ) != null ) {
+			if ( ( fic = ouvrirFileWrite( panneau.getFichierCourant() ) ) != null ) {
 
 				try {
 					for ( Forme forme : panneau.getFormes() ) {
 						forme.writeObject( fic );
 					}
-					OutilsFichier.fermerFicBinEcriture( fic, panneau.getFichierCourant() );
+					fermerFileWrite( fic, panneau.getFichierCourant() );
 				} catch ( IOException e1 ) {
-					System.out.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() );
+					System.out.println( "Probléme d'ècriture du fichier " + panneau.getFrame().getName() );
 					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 							"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 				}
@@ -121,8 +120,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			ObjectInputStream fic;
 			if ( choixFichier.showOpenDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
-				if ( ( fic = OutilsFichier
-						.ouvrirFicBinLecture( choixFichier.getSelectedFile().getAbsolutePath() ) ) != null ) {
+				if ( ( fic = ouvrirFileRead( choixFichier.getSelectedFile().getAbsolutePath() ) ) != null ) {
 					try {
 						panneau.getFormes().clear();
 						int nbFormes = fic.readInt();
@@ -145,7 +143,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							panneau.getFormes().add( temp );
 							panneau.repaint();
 						}
-						OutilsFichier.fermerFicBinLecture( fic,
+						fermerFileRead( fic,
 								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
@@ -153,13 +151,13 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 					} catch ( IOException e2 ) {
 
 						System.out.println(
-								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Probléme de lecture du fichier " + choixFichier.getSelectedFile().getName() );
 						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
 								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
 					} catch ( ClassNotFoundException e1 ) {
 
 						System.out.println(
-								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Problème de lecture du fichier " + choixFichier.getSelectedFile().getName() );
 						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
 								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
 					}
@@ -169,10 +167,34 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		} else if ( e.getSource() == itemQuit ) {
 			System.exit( 0 );
 		} else if ( e.getSource() == menuPropos ) {
-			// TODO le menu ï¿½propos
 			JOptionPane.showMessageDialog( this,
-					"GnG : GnG not Gimp \nCrï¿½ï¿½ par: Nicolas Parr & David Ringuet\n Version: 3.0", "ï¿½ propos",
+					"GnG : GnG not Gimp \nCréé par: Nicolas Parr & David Ringuet\n Version: 3.0", "À propos",
 					JOptionPane.INFORMATION_MESSAGE );
 		}
+	}
+
+	private void fermerFileWrite( ObjectOutputStream fic, String fichierCourant ) {
+		try {
+			fic.close();
+		} catch (IOException erreur) {
+			JOptionPane.showMessageDialog( this, "Une Erreur est survenue lors de la fermeture du fichier",
+					"Erreur de fermeture", JOptionPane.ERROR_MESSAGE );
+		}
+		
+	}
+
+	private ObjectOutputStream ouvrirFileWrite( String fichierCourant ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void fermerFileRead( ObjectInputStream fic, String string ) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private ObjectInputStream ouvrirFileRead( String absolutePath ) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
