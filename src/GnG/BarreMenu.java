@@ -59,9 +59,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		itemQuit.addActionListener( this );
 
 	}
-//TODO fix gng.gng problem,
-//TODO fix quand on overwrite ça le demande dans la console
-//TODO fix quand on overwrite c'est vide
+
 	public void actionPerformed( ActionEvent e ) {
 		JFileChooser choixFichier = new JFileChooser();
 		FileNameExtensionFilter filtreGng = new FileNameExtensionFilter( "Not Gimp files *.gng", "gng" );
@@ -72,7 +70,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			panneau.getFormes().clear();
 			panneau.paintComponent( panneau.getGraphics() );
 			panneau.setFichierCourant( "" );
-			panneau.getFrame().setName( "Untitled" );
+			panneau.getFrame().changerTitre( "Untitled" );
 
 		} else if ( e.getSource() == itemSauvSous
 				|| ( e.getSource() == itemSauv && panneau.getFichierCourant() == "" ) ) {
@@ -90,7 +88,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 						}
 						OutilsFichier.fermerFicBinEcriture( fic,
 								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
+						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 					} catch ( IOException e1 ) {
 						System.out.println(
@@ -112,8 +110,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 					}
 					OutilsFichier.fermerFicBinEcriture( fic, panneau.getFichierCourant() );
 				} catch ( IOException e1 ) {
-					System.out
-							.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() );
+					System.out.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() );
 					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 							"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 				}
@@ -127,7 +124,6 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 				if ( ( fic = OutilsFichier
 						.ouvrirFicBinLecture( choixFichier.getSelectedFile().getAbsolutePath() ) ) != null ) {
 					try {
-						// panneau.setFormes( (ArrayList) fic.readObject() );
 						panneau.getFormes().clear();
 						int nbFormes = fic.readInt();
 						for ( int i = 0; i < nbFormes; ++i ) {
@@ -149,13 +145,9 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							panneau.getFormes().add( temp );
 							panneau.repaint();
 						}
-						/*
-						 * for ( Forme forme : panneau.getFormes() ) {
-						 * forme.readObject( fic ); }
-						 */
 						OutilsFichier.fermerFicBinLecture( fic,
 								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
+						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 
 					} catch ( IOException e2 ) {
