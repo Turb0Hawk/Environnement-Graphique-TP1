@@ -132,7 +132,7 @@ public class Rectangle extends Forme {
 
 	@Override
 	public void readObjectNoData() throws ObjectStreamException {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		
 	}
 
