@@ -40,8 +40,6 @@ public class Rectangle extends Forme {
 
 	public Rectangle( int x, int y ) {
 		super( x, y );
-		setContour( InterfacePrincipale.getContourCourrant() );
-		setRemplissage( InterfacePrincipale.getRemplissageCourrant() );
 	}
 
 	public int getLargeur() {

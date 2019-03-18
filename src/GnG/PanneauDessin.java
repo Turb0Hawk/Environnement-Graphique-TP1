@@ -22,10 +22,10 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 
 	private ArrayList<Forme> formes = new ArrayList<>();
 	private Forme formeTemp;
-	private JFrame frame;
+	public InterfacePrincipale frame;
 	private String fichierCourant = "";
 
-	public PanneauDessin( JFrame frame ) {
+	public PanneauDessin( InterfacePrincipale frame ) {
 		super();
 		this.setBackground( Color.LIGHT_GRAY );
 		addMouseListener( this );
@@ -53,7 +53,7 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 		return frame;
 	}
 
-	public void setFrame( JFrame frame ) {
+	public void setFrame( InterfacePrincipale frame ) {
 		this.frame = frame;
 	}
 	
@@ -101,16 +101,19 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 
 	@Override
 	public void mousePressed( MouseEvent e ) {
-		if ( InterfacePrincipale.getFormeCourrante() == 1 ) {
+		if ( frame.getFormeCourrante() == 1 ) {
 
 			formeTemp = new Ovale( e.getX(), e.getY() );
-		} else if ( InterfacePrincipale.getFormeCourrante() == 0 ) {
+		} else if ( frame.getFormeCourrante() == 0 ) {
 
 			formeTemp = new Trait( e.getX(), e.getY() );
 		} else {
 
 			formeTemp = new Rectangle( e.getX(), e.getY() );
 		}
+		
+		formeTemp.setContour( frame.getContourCourrant() );
+		formeTemp.setRemplissage( frame.getRemplissageCourrant() );
 	}
 
 	@Override

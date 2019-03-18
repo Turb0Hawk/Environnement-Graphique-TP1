@@ -14,22 +14,21 @@ import javax.swing.JPanel;
  * @version 3
  */
 public class InterfacePrincipale extends JFrame {
-	
+	private static final long serialVersionUID = 5348510686696217552L;
 	
 	/**
 	 * la forme courante
 	 * 0 = trait, 1 = ovale, 2 = rectangle
 	 */
-	private static int formeCourrante = 0;
+	private int formeCourrante = 0;
 	/**
 	 * la couleur de contour courante
 	 */
-	private static int contourCourrant = 0;
+	private int contourCourrant = 0;
 	/**
 	 * la couleur de remplissage courante
 	 */
-	private static int remplissageCourrant = -1;
-	private static final long serialVersionUID = 1L;
+	private int remplissageCourrant = -1;
 	private static String nomFichier = "Untitled";
 	private ImageIcon iconeFenetre = new ImageIcon( InterfacePrincipale.class.getResource( "Images\\icon.png" ) );
 	private JPanel panelBarreOutils = new JPanel( new GridBagLayout() );
@@ -40,7 +39,7 @@ public class InterfacePrincipale extends JFrame {
 	 * @return formeCourrante la forme courante:
 	 * 0 = trait, 1 = ovale, 2 = rectangle
 	 */
-	public static int getFormeCourrante() {
+	public int getFormeCourrante() {
 		return formeCourrante;
 	}
 
@@ -49,29 +48,29 @@ public class InterfacePrincipale extends JFrame {
 	 * permet de changer la forme courrante choisis:  
 	 * 0 = trait, 1 = ovale, 2 = rectangle
 	 */
-	public static void setFormeCourrante( int forme ) {
+	public void setFormeCourrante( int forme ) {
 		if ( forme >= 0 && forme <= 2 ) {
-			InterfacePrincipale.formeCourrante = forme;
+			formeCourrante = forme;
 		}
 	}
 
-	public static int getContourCourrant() {
-		return contourCourrant;
+	public int getContourCourrant() {
+		return this.contourCourrant;
 	}
 
-	public static void setContourCourrant( int contourCourrant ) {
-		InterfacePrincipale.contourCourrant = contourCourrant;
+	public void setContourCourrant( int contourCourrant ) {
+		this.contourCourrant = contourCourrant;
 	}
 
-	public static int getRemplissageCourrant() {
-		return remplissageCourrant;
+	public int getRemplissageCourrant() {
+		return this.remplissageCourrant;
 	}
 
 	/**
 	 * @param remplissageCourrant
 	 */
-	public static void setRemplissageCourrant( int remplissageCourrant ) {
-		InterfacePrincipale.remplissageCourrant = remplissageCourrant;
+	public void setRemplissageCourrant( int remplissageCourrant ) {
+		this.remplissageCourrant = remplissageCourrant;
 	}
 
 	public InterfacePrincipale() {
@@ -83,7 +82,7 @@ public class InterfacePrincipale extends JFrame {
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		setIconImage( iconeFenetre.getImage() );
 
-		panelBarreOutils.add( new BarreOutils(), constraints );
+		panelBarreOutils.add( new BarreOutils(this), constraints );
 
 		add( pan = new PanneauDessin( this ) );
 		setJMenuBar( new BarreMenu( pan ) );

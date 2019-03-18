@@ -29,8 +29,6 @@ public class Ovale extends Rectangle {
 
 	public Ovale( int x, int y ) {
 		super( x, y );
-		setContour( InterfacePrincipale.getContourCourrant() );
-		setRemplissage( InterfacePrincipale.getRemplissageCourrant() );
 	}
 	
 	/**

@@ -17,34 +17,38 @@ import javax.swing.*;
 public class BarreOutils extends JToolBar implements ActionListener {
 	private static final long serialVersionUID = 1407475899641651758L;
 
-	JToggleButton btnOvale = new JToggleButton();
-	JToggleButton btnRectangle = new JToggleButton();
-	JToggleButton btnTrait = new JToggleButton();
-	JToggleButton btnVide = new JToggleButton();
+	private JToggleButton btnOvale = new JToggleButton();
+	private JToggleButton btnRectangle = new JToggleButton();
+	private JToggleButton btnTrait = new JToggleButton();
+	private JToggleButton btnVide = new JToggleButton();
 
-	ImageIcon iconeOvale = new ImageIcon( BarreOutils.class.getResource( "Images\\ovale.png" ) );
-	ImageIcon iconeRectangle = new ImageIcon( BarreOutils.class.getResource( "Images\\rectangle.png" ) );
-	ImageIcon iconeTrait = new ImageIcon( BarreOutils.class.getResource( "Images\\trait.png" ) );
-	ImageIcon iconeVide = new ImageIcon( BarreOutils.class.getResource( "Images\\none.png" ) );
-	ImageIcon iconeVideSel = new ImageIcon( BarreOutils.class.getResource( "Images\\nonePressed.png" ) );
+	private ImageIcon iconeOvale = new ImageIcon( BarreOutils.class.getResource( "Images\\ovale.png" ) );
+	private ImageIcon iconeRectangle = new ImageIcon( BarreOutils.class.getResource( "Images\\rectangle.png" ) );
+	private ImageIcon iconeTrait = new ImageIcon( BarreOutils.class.getResource( "Images\\trait.png" ) );
+	private ImageIcon iconeVide = new ImageIcon( BarreOutils.class.getResource( "Images\\none.png" ) );
+	private ImageIcon iconeVideSel = new ImageIcon( BarreOutils.class.getResource( "Images\\nonePressed.png" ) );
 
-	JPanel panelRemplissage = new JPanel();
-	JPanel panelTrait = new JPanel();
+	private JPanel panelRemplissage = new JPanel();
+	private JPanel panelTrait = new JPanel();
 
-	ButtonGroup groupeForme = new ButtonGroup();
-	ButtonGroup groupeRemplissage = new ButtonGroup();
-	ButtonGroup groupeTrait = new ButtonGroup();
+	private ButtonGroup groupeForme = new ButtonGroup();
+	private ButtonGroup groupeRemplissage = new ButtonGroup();
+	private ButtonGroup groupeTrait = new ButtonGroup();
 
-	JToggleButton[] btnsCouleurRemplissage = new JToggleButton[6];
-	JToggleButton[] btnsCouleurTrait = new JToggleButton[6];
-	public static String[] couleurs = { "#000000", "#ffcfea", "#feffbe", "#cbffe6", "#afe9ff", "#bfb9ff" };
-	public static String[] nomCouleurs = { "noir noirci", "rose songes d'�t�", "jaune canari", "vaporGreen TM",
+	private JToggleButton[] btnsCouleurRemplissage = new JToggleButton[6];
+	private JToggleButton[] btnsCouleurTrait = new JToggleButton[6];
+
+	private InterfacePrincipale frame;
+	
+	public static final String[] couleurs = { "#000000", "#ffcfea", "#feffbe", "#cbffe6", "#afe9ff", "#bfb9ff" };
+	public static final String[] nomCouleurs = { "noir noirci", "rose songes d'�t�", "jaune canari", "vaporGreen TM",
 			"blue A E S T H E T I C", "fushia d�pressif" };
 
-	public BarreOutils() {
+	public BarreOutils(InterfacePrincipale frame) {
 		super();
 		setFloatable( false );
 		setOrientation( SwingConstants.HORIZONTAL );
+		this.frame = frame;
 
 		btnOvale.setIcon( iconeOvale );
 		btnOvale.setToolTipText( "Outil pour dessiner des Ovales et des cercles" );
@@ -115,31 +119,31 @@ public class BarreOutils extends JToolBar implements ActionListener {
 	 */
 	public void actionPerformed( ActionEvent e ) {
 		if ( e.getSource() == btnTrait ) {
-			InterfacePrincipale.setFormeCourrante( 0 );
+			frame.setFormeCourrante( 0 );
 		}
 
 		if ( e.getSource() == btnRectangle ) {
-			InterfacePrincipale.setFormeCourrante( 2 );
+			frame.setFormeCourrante( 2 );
 		}
 
 		if ( e.getSource() == btnOvale ) {
-			InterfacePrincipale.setFormeCourrante( 1 );
+			frame.setFormeCourrante( 1 );
 		}
 
 		if ( e.getSource() == btnVide ) {
-			InterfacePrincipale.setRemplissageCourrant( -1 );
+			frame.setRemplissageCourrant( -1 );
 		}
 
 		for ( int i = 0; i < btnsCouleurRemplissage.length; ++i ) {
 			if ( e.getSource() == btnsCouleurRemplissage[i] ) {
-				InterfacePrincipale.setRemplissageCourrant( i );
+				frame.setRemplissageCourrant( i );
 				break;
 			}
 		}
 
 		for ( int i = 0; i < btnsCouleurTrait.length; ++i ) {
 			if ( e.getSource() == btnsCouleurTrait[i] ) {
-				InterfacePrincipale.setContourCourrant( i );
+				frame.setContourCourrant( i );
 				break;
 			}
 		}

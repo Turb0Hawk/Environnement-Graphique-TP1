@@ -30,8 +30,6 @@ public class Trait extends Forme implements Serializable {
 
 	public Trait( int x, int y ) {
 		super( x, y );
-		setContour( InterfacePrincipale.getContourCourrant() );
-		setRemplissage( InterfacePrincipale.getRemplissageCourrant() );
 	}
 
 	/**
