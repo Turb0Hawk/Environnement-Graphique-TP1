@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import outilsjava.*;
@@ -59,10 +60,13 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		itemQuit.addActionListener( this );
 
 	}
-	
+
 	public void actionPerformed( ActionEvent e ) {
 		JFileChooser choixFichier = new JFileChooser();
 		FileNameExtensionFilter filtreGng = new FileNameExtensionFilter( "Not Gimp files *.gng", "gng" );
+		String nomFichierTemp = "";
+		String pathFichierTemp = "";
+
 		choixFichier.addChoosableFileFilter( filtreGng );
 		choixFichier.setFileFilter( filtreGng );
 
@@ -70,32 +74,33 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			panneau.getFormes().clear();
 			panneau.paintComponent( panneau.getGraphics() );
 			panneau.setFichierCourant( "" );
-			panneau.getFrame().setName( "Untitled" );
+			panneau.getFrame().setTitle( "Untitled" );
 
 		} else if ( e.getSource() == itemSauvSous
 				|| ( e.getSource() == itemSauv && panneau.getFichierCourant() == "" ) ) {
 
 			ObjectOutputStream fic;
 			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
-				
-				
 
-				if ( ( fic = OutilsFichier.ouvrirFicBinEcriture(
-						choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
+				if ( !choixFichier.getSelectedFile().getName().endsWith( ".gng" ) ) {
+					nomFichierTemp = choixFichier.getSelectedFile().getName() + ".gng";
+					pathFichierTemp = choixFichier.getSelectedFile().getAbsolutePath() + ".gng";
+				}
 
-					
+				if ( ( fic = OutilsFichier.ouvrirFicBinEcriture( pathFichierTemp ) ) != null ) {
+
 					try {
 						fic.writeInt( panneau.getFormes().size() );
 						for ( Forme forme : panneau.getFormes() ) {
 							forme.writeObject( fic );
 						}
-						OutilsFichier.fermerFicBinEcriture( fic,
-								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
-						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+
+						OutilsFichier.fermerFicBinEcriture( fic, pathFichierTemp );
+						panneau.getFrame().setName( nomFichierTemp );
+						panneau.setFichierCourant( pathFichierTemp );
 					} catch ( IOException e1 ) {
 						System.out.println(
-								"Problème d'écriture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Problème d'écriture du fichier " + nomFichierTemp );
 						JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 								"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 					}
@@ -113,8 +118,6 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 					}
 					OutilsFichier.fermerFicBinEcriture( fic, panneau.getFichierCourant() );
 				} catch ( IOException e1 ) {
-					System.out
-							.println( "Problème d'écriture du fichier " + panneau.getFrame().getName() );
 					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 							"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 				}
@@ -149,6 +152,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							panneau.getFormes().add( temp );
 							panneau.repaint();
 						}
+
 						OutilsFichier.fermerFicBinLecture( fic,
 								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
@@ -174,18 +178,8 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			System.exit( 0 );
 		} else if ( e.getSource() == menuPropos ) {
 			JOptionPane.showMessageDialog( this,
-					"GnG : GnG not Gimp \nCrï¿½ï¿½ par: Nicolas Parr & David Ringuet\n Version: 3.0", "À propos",
+					"GnG : GnG not Gimp \nCréé par: Nicolas Parr & David Ringuet\n Version: 3.0", "À propos",
 					JOptionPane.INFORMATION_MESSAGE );
 		}
 	}
-	
-	private void verificationNomFic (JFileChooser chooser) {
-		
-		String nomInit = chooser.getSelectedFile().getName();
-		
-		if (!nomInit.contains( ".gng" )) {
-			//chooser.getSelectedFile().setName TODO
-		}
-	}
-	
 }
