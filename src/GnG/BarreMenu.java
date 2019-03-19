@@ -195,7 +195,6 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 	private ObjectOutputStream ouvrirFileWrite( String nomFile, boolean saveAs ) {
 		boolean valide = true;
 		Path chemin = null;
-		String absoluteChemin = "";// not drinkable lemayo
 		ObjectOutputStream file = null;
 
 		try {
@@ -208,49 +207,40 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 
 		// plusieurs checks pour �tre vraiment suer que sa foire pas
 		if ( valide ) {
-			if ( valide ) {
-				absoluteChemin = chemin.toAbsolutePath().toString();
 
-				if ( Files.notExists( chemin ) ) {
-					valide = true;
+			if ( Files.notExists( chemin ) ) {
+				valide = true;
 
-				} else if ( Files.exists( chemin ) ) {
-					if ( !Files.isRegularFile( chemin ) ) {
-						JOptionPane.showMessageDialog( this,
-								"\nErreur, le fichier " + absoluteChemin
-										+ " n'est pas un fichier support� par GnG .",
-								"Erreur d'�criture", JOptionPane.ERROR_MESSAGE );
-						valide = false;
-					} else {
-						if ( !Files.isWritable( chemin ) ) {
-							valide = false;
-						} else {
+			} else if ( Files.exists( chemin ) ) {
 
-							if ( saveAs ) {
-								valide = ( JOptionPane.showConfirmDialog( this,
-										"Le fichier  \"" + nomFile
-												+ "\" contient d�j� des donn�es, voulez-vous l'�craser ?",
-										"Confirmation pour �craser",
-										JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION );
-							}
-						}
-					}
+				if ( !Files.isWritable( chemin ) ) {
+					valide = false;
 				} else {
-					valide = false;
-				}
-			}
 
-			if ( valide ) {
-				try {
-					file = new ObjectOutputStream( new FileOutputStream( nomFile ) );
-				} catch ( IOException errIO ) {
-					JOptionPane.showMessageDialog( this,
-							"Une Erreur est survenue lors de l'�criture du fichier" + nomFile, "Erreur d'�criture",
-							JOptionPane.ERROR_MESSAGE );
-					valide = false;
+					if ( saveAs ) {
+						valide = ( JOptionPane.showConfirmDialog( this,
+								"Le fichier  \"" + nomFile
+										+ "\" contient d�j� des donn�es, voulez-vous l'�craser ?",
+								"Confirmation pour �craser", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION );
+
+					}
 				}
+			} else {
+				valide = false;
 			}
 		}
+
+		if ( valide ) {
+			try {
+				file = new ObjectOutputStream( new FileOutputStream( nomFile ) );
+			} catch ( IOException errIO ) {
+				JOptionPane.showMessageDialog( this,
+						"Une Erreur est survenue lors de l'�criture du fichier" + nomFile, "Erreur d'�criture",
+						JOptionPane.ERROR_MESSAGE );
+				valide = false;
+			}
+		}
+
 		return file;
 	}
 
@@ -276,28 +266,21 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 				valide = false;
 
 			} else if ( Files.exists( chemin ) ) {
-				if ( !Files.isRegularFile( chemin ) ) {
 
-					JOptionPane.showMessageDialog( this,
-							"\nErreur, le fichier " + cheminAbsolu + " n'est pas un fichier support� par GnG .",
-							"Erreur d'�criture", JOptionPane.ERROR_MESSAGE );
+				if ( !Files.isReadable( chemin ) ) {
+
+					System.out.println( "\nErreur, le fichier " + cheminAbsolu + " n'est pas permis en lecture." );
 					valide = false;
 				} else {
 
-					if ( !Files.isReadable( chemin ) ) {
-
-						System.out.println( "\nErreur, le fichier " + cheminAbsolu + " n'est pas permis en lecture." );
+					try {
+						file = new ObjectInputStream( new FileInputStream( cheminFile ) );
+					} catch ( IOException errIO ) {
+						System.out.println( "\nErreur, impossible d'ouvrir " + "le fichier " + cheminAbsolu
+								+ " en mode lecture binaire." );
 						valide = false;
-					} else {
-
-						try {
-							file = new ObjectInputStream( new FileInputStream( cheminFile ) );
-						} catch ( IOException errIO ) {
-							System.out.println( "\nErreur, impossible d'ouvrir " + "le fichier " + cheminAbsolu
-									+ " en mode lecture binaire." );
-							valide = false;
-						}
 					}
+
 				}
 			} else {
 				System.out.println(
