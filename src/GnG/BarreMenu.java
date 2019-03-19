@@ -2,20 +2,10 @@ package GnG;
 
 import java.awt.Dimension;
 import java.awt.event.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import java.io.*;
+import java.nio.file.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import outilsjava.OutilsLecture;
 
 /**
  * Fichier BarreMenu.java Description de la classe: Classe qui construit notre
@@ -81,7 +71,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			panneau.getFormes().clear();
 			panneau.paintComponent( panneau.getGraphics() );
 			panneau.setFichierCourant( "" );
-			panneau.getFrame().changerTitre( "Untitled" );
+			panneau.getFrame().setTitle( "Untitled" );
 
 		} else if ( e.getSource() == itemSauvSous
 				|| ( e.getSource() == itemSauv && panneau.getFichierCourant() == "" ) ) {
@@ -89,10 +79,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			ObjectOutputStream fic;
 			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
-				if ( ( fic = ouvrirFileWrite( choixFichier.getSelectedFile().getAbsolutePath() + ".gng",
-						true ) ) != null ) {
-
-				if ( ( fic = OutilsFichier.ouvrirFicBinEcriture( pathFichierTemp ) ) != null ) {
+				if ( ( fic = ouvrirFileWrite( pathFichierTemp, true ) ) != null ) {
 
 					try {
 						fic.writeInt( panneau.getFormes().size() );
@@ -100,11 +87,10 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							forme.writeObject( fic );
 						}
 						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
+						panneau.getFrame().setTitle( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 					} catch ( IOException e1 ) {
-						System.out.println(
-								"Probl�me d'�criture du fichier " + nomFichierTemp );
+						System.out.println( "Probl�me d'�criture du fichier " + nomFichierTemp );
 						JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 								"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 					}
@@ -157,7 +143,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							panneau.repaint();
 						}
 						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
+						panneau.getFrame().setTitle( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 
 					} catch ( IOException e2 ) {
@@ -231,7 +217,8 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 				} else if ( Files.exists( chemin ) ) {
 					if ( !Files.isRegularFile( chemin ) ) {
 						JOptionPane.showMessageDialog( this,
-								"\nErreur, le fichier " + absoluteChemin + " n'est pas un fichier support� par GnG .",
+								"\nErreur, le fichier " + absoluteChemin
+										+ " n'est pas un fichier support� par GnG .",
 								"Erreur d'�criture", JOptionPane.ERROR_MESSAGE );
 						valide = false;
 					} else {
