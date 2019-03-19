@@ -20,7 +20,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = 2L;
 
 	private JMenu menuFichier = new JMenu( "Fichier" );
-	private JMenuItem menuPropos = new JMenuItem( "ï¿½ propos" );
+	private JMenuItem menuPropos = new JMenuItem( "À propos" );
 	private JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
 	private JMenuItem itemSauv = new JMenuItem( "Enregister", UIManager.getIcon( "FileView.floppyDriveIcon" ) );
 	private JMenuItem itemSauvSous = new JMenuItem( "Enregistrer sous...",
@@ -79,6 +79,11 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			ObjectOutputStream fic;
 			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
+				if ( !choixFichier.getSelectedFile().getName().endsWith( ".gng" ) ) {
+					nomFichierTemp = choixFichier.getSelectedFile().getName() + ".gng";
+					pathFichierTemp = choixFichier.getSelectedFile().getAbsolutePath() + ".gng";
+				}
+
 				if ( ( fic = ouvrirFileWrite( pathFichierTemp, true ) ) != null ) {
 
 					try {
@@ -86,11 +91,12 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 						for ( Forme forme : panneau.getFormes() ) {
 							forme.writeObject( fic );
 						}
-						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().setTitle( choixFichier.getSelectedFile().getName() );
-						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+
+						fermerFile( fic, pathFichierTemp );
+						panneau.getFrame().setTitle( nomFichierTemp );
+						panneau.setFichierCourant( pathFichierTemp );
 					} catch ( IOException e1 ) {
-						System.out.println( "Problï¿½me d'ï¿½criture du fichier " + nomFichierTemp );
+						System.out.println( "Problème d'écriture du fichier " + nomFichierTemp );
 						JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 								"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 					}
@@ -108,7 +114,6 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 					}
 					fermerFile( fic, panneau.getFichierCourant() );
 				} catch ( IOException e1 ) {
-					System.out.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() );
 					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 							"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 				}
@@ -142,20 +147,21 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							panneau.getFormes().add( temp );
 							panneau.repaint();
 						}
-						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+
+						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() );
 						panneau.getFrame().setTitle( choixFichier.getSelectedFile().getName() );
-						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() );
 
 					} catch ( IOException e2 ) {
 
 						System.out.println(
-								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Problème de lecture du fichier " + choixFichier.getSelectedFile().getName() );
 						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
 								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
 					} catch ( ClassNotFoundException e1 ) {
 
 						System.out.println(
-								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Problème de lecture du fichier " + choixFichier.getSelectedFile().getName() );
 						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
 								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
 					}
@@ -166,7 +172,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			System.exit( 0 );
 		} else if ( e.getSource() == menuPropos ) {
 			JOptionPane.showMessageDialog( this,
-					"GnG : GnG not Gimp \nCrï¿½ï¿½ par: Nicolas Parr & David Ringuet\n Version: 3.0", "ï¿½ propos",
+					"GnG : GnG not Gimp \nCréé par: Nicolas Parr & David Ringuet\n Version: 3.0", "À propos",
 					JOptionPane.INFORMATION_MESSAGE );
 		}
 	}
@@ -284,7 +290,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 				}
 			} else {
 				System.out.println(
-						"\nErreur, impossible de vï¿½rifier " + "l'existence du fichier " + cheminAbsolu + "." );
+						"\nErreur, impossible de vérifier " + "l'existence du fichier " + cheminAbsolu + "." );
 				valide = false;
 			}
 		}
