@@ -49,7 +49,7 @@ public class PanneauDessin extends JPanel implements MouseListener, MouseMotionL
 		this.formeTemp = formeTemp;
 	}
 
-	public JFrame getFrame() {
+	public InterfacePrincipale getFrame() {
 		return frame;
 	}
 

@@ -44,11 +44,11 @@ public class BarreOutils extends JToolBar implements ActionListener {
 	public static final String[] nomCouleurs = { "noir noirci", "rose songes d'�t�", "jaune canari", "vaporGreen TM",
 			"blue A E S T H E T I C", "fushia d�pressif" };
 
-	public BarreOutils(InterfacePrincipale frame) {
+	public BarreOutils(JFrame frame) {
 		super();
 		setFloatable( false );
 		setOrientation( SwingConstants.HORIZONTAL );
-		this.frame = frame;
+		this.frame = (InterfacePrincipale) frame;
 
 		btnOvale.setIcon( iconeOvale );
 		btnOvale.setToolTipText( "Outil pour dessiner des Ovales et des cercles" );

@@ -2,12 +2,10 @@ package GnG;
 
 import java.awt.Dimension;
 import java.awt.event.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.file.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import outilsjava.*;
 
 /**
  * Fichier BarreMenu.java Description de la classe: Classe qui construit notre
@@ -22,7 +20,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = 2L;
 
 	private JMenu menuFichier = new JMenu( "Fichier" );
-	private JMenuItem menuPropos = new JMenuItem( "ï¿½propos" );
+	private JMenuItem menuPropos = new JMenuItem( "À propos" );
 	private JMenuItem itemNouv = new JMenuItem( "Nouvelle image", UIManager.getIcon( "FileView.fileIcon" ) );
 	private JMenuItem itemSauv = new JMenuItem( "Enregister", UIManager.getIcon( "FileView.floppyDriveIcon" ) );
 	private JMenuItem itemSauvSous = new JMenuItem( "Enregistrer sous...",
@@ -59,12 +57,13 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		itemQuit.addActionListener( this );
 
 	}
-//TODO fix gng.gng problem,
-//TODO fix quand on overwrite ça le demande dans la console
-//TODO fix quand on overwrite c'est vide
+
 	public void actionPerformed( ActionEvent e ) {
 		JFileChooser choixFichier = new JFileChooser();
 		FileNameExtensionFilter filtreGng = new FileNameExtensionFilter( "Not Gimp files *.gng", "gng" );
+		String nomFichierTemp = "";
+		String pathFichierTemp = "";
+
 		choixFichier.addChoosableFileFilter( filtreGng );
 		choixFichier.setFileFilter( filtreGng );
 
@@ -72,7 +71,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			panneau.getFormes().clear();
 			panneau.paintComponent( panneau.getGraphics() );
 			panneau.setFichierCourant( "" );
-			panneau.getFrame().setName( "Untitled" );
+			panneau.getFrame().setTitle( "Untitled" );
 
 		} else if ( e.getSource() == itemSauvSous
 				|| ( e.getSource() == itemSauv && panneau.getFichierCourant() == "" ) ) {
@@ -80,21 +79,24 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			ObjectOutputStream fic;
 			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
-				if ( ( fic = OutilsFichier.ouvrirFicBinEcriture(
-						choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
+				if ( !choixFichier.getSelectedFile().getName().endsWith( ".gng" ) ) {
+					nomFichierTemp = choixFichier.getSelectedFile().getName() + ".gng";
+					pathFichierTemp = choixFichier.getSelectedFile().getAbsolutePath() + ".gng";
+				}
+
+				if ( ( fic = ouvrirFileWrite( pathFichierTemp, true ) ) != null ) {
 
 					try {
 						fic.writeInt( panneau.getFormes().size() );
 						for ( Forme forme : panneau.getFormes() ) {
 							forme.writeObject( fic );
 						}
-						OutilsFichier.fermerFicBinEcriture( fic,
-								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
-						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+
+						fermerFile( fic, pathFichierTemp );
+						panneau.getFrame().setTitle( nomFichierTemp );
+						panneau.setFichierCourant( pathFichierTemp );
 					} catch ( IOException e1 ) {
-						System.out.println(
-								"Problï¿½me d'ï¿½criture du fichier " + choixFichier.getSelectedFile().getName() );
+						System.out.println( "Problème d'écriture du fichier " + nomFichierTemp );
 						JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 								"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 					}
@@ -104,16 +106,14 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		} else if ( e.getSource() == itemSauv ) {
 
 			ObjectOutputStream fic;
-			if ( ( fic = OutilsFichier.ouvrirFicBinEcriture( panneau.getFichierCourant() ) ) != null ) {
+			if ( ( fic = ouvrirFileWrite( panneau.getFichierCourant(), false ) ) != null ) {
 
 				try {
 					for ( Forme forme : panneau.getFormes() ) {
 						forme.writeObject( fic );
 					}
-					OutilsFichier.fermerFicBinEcriture( fic, panneau.getFichierCourant() );
+					fermerFile( fic, panneau.getFichierCourant() );
 				} catch ( IOException e1 ) {
-					System.out
-							.println( "Problï¿½me d'ï¿½criture du fichier " + panneau.getFrame().getName() );
 					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
 							"Erreur de sauvegarde", JOptionPane.ERROR_MESSAGE );
 				}
@@ -124,10 +124,8 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			ObjectInputStream fic;
 			if ( choixFichier.showOpenDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
-				if ( ( fic = OutilsFichier
-						.ouvrirFicBinLecture( choixFichier.getSelectedFile().getAbsolutePath() ) ) != null ) {
+				if ( ( fic = ouvrirFileRead( choixFichier.getSelectedFile().getAbsolutePath() ) ) != null ) {
 					try {
-						// panneau.setFormes( (ArrayList) fic.readObject() );
 						panneau.getFormes().clear();
 						int nbFormes = fic.readInt();
 						for ( int i = 0; i < nbFormes; ++i ) {
@@ -149,25 +147,21 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							panneau.getFormes().add( temp );
 							panneau.repaint();
 						}
-						/*
-						 * for ( Forme forme : panneau.getFormes() ) {
-						 * forme.readObject( fic ); }
-						 */
-						OutilsFichier.fermerFicBinLecture( fic,
-								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
-						panneau.getFrame().setName( choixFichier.getSelectedFile().getName() );
-						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+
+						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() );
+						panneau.getFrame().setTitle( choixFichier.getSelectedFile().getName() );
+						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() );
 
 					} catch ( IOException e2 ) {
 
 						System.out.println(
-								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Problème de lecture du fichier " + choixFichier.getSelectedFile().getName() );
 						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
 								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
 					} catch ( ClassNotFoundException e1 ) {
 
 						System.out.println(
-								"Problï¿½me de lecture du fichier " + choixFichier.getSelectedFile().getName() );
+								"Problème de lecture du fichier " + choixFichier.getSelectedFile().getName() );
 						JOptionPane.showMessageDialog( this, "Une Erreur  est survenue lors de l'ouverture du fichier",
 								"Erreur d'ouverture", JOptionPane.ERROR_MESSAGE );
 					}
@@ -177,10 +171,129 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		} else if ( e.getSource() == itemQuit ) {
 			System.exit( 0 );
 		} else if ( e.getSource() == menuPropos ) {
-			// TODO le menu ï¿½propos
 			JOptionPane.showMessageDialog( this,
-					"GnG : GnG not Gimp \nCrï¿½ï¿½ par: Nicolas Parr & David Ringuet\n Version: 3.0", "ï¿½ propos",
+					"GnG : GnG not Gimp \nCréé par: Nicolas Parr & David Ringuet\n Version: 3.0", "À propos",
 					JOptionPane.INFORMATION_MESSAGE );
 		}
+	}
+
+	private void fermerFile( ObjectOutputStream fic, String fichierCourant ) {
+		try {
+			fic.close();
+		} catch ( IOException erreur ) {
+			JOptionPane.showMessageDialog( this,
+					"Une Erreur est survenue lors de la fermeture du fichier" + fichierCourant, "Erreur de fermeture",
+					JOptionPane.ERROR_MESSAGE );
+		}
+
+	}
+
+	private void fermerFile( ObjectInputStream fic, String fichierCourant ) {
+		try {
+			fic.close();
+		} catch ( IOException erreur ) {
+			JOptionPane.showMessageDialog( this,
+					"Une Erreur est survenue lors de la fermeture du fichier" + fichierCourant, "Erreur de fermeture",
+					JOptionPane.ERROR_MESSAGE );
+		}
+	}
+
+	private ObjectOutputStream ouvrirFileWrite( String nomFile, boolean saveAs ) {
+		boolean valide = true;
+		Path chemin = null;
+		ObjectOutputStream file = null;
+
+		try {
+			chemin = Paths.get( nomFile );
+		} catch ( InvalidPathException errNomFichier ) {
+			JOptionPane.showMessageDialog( this, "Erreur le nom de fichier contient des caractï¿½res invalides",
+					"Erreur d'ï¿½criture", JOptionPane.ERROR_MESSAGE );
+			valide = false;
+		}
+
+		// plusieurs checks pour ï¿½tre vraiment suer que sa foire pas
+		if ( valide ) {
+
+			if ( Files.notExists( chemin ) ) {
+				valide = true;
+
+			} else if ( Files.exists( chemin ) ) {
+
+				if ( !Files.isWritable( chemin ) ) {
+					valide = false;
+				} else {
+
+					if ( saveAs ) {
+						valide = ( JOptionPane.showConfirmDialog( this,
+								"Le fichier  \"" + nomFile
+										+ "\" contient dï¿½jï¿½ des donnï¿½es, voulez-vous l'ï¿½craser ?",
+								"Confirmation pour ï¿½craser", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION );
+
+					}
+				}
+			} else {
+				valide = false;
+			}
+		}
+
+		if ( valide ) {
+			try {
+				file = new ObjectOutputStream( new FileOutputStream( nomFile ) );
+			} catch ( IOException errIO ) {
+				JOptionPane.showMessageDialog( this,
+						"Une Erreur est survenue lors de l'ï¿½criture du fichier" + nomFile, "Erreur d'ï¿½criture",
+						JOptionPane.ERROR_MESSAGE );
+				valide = false;
+			}
+		}
+
+		return file;
+	}
+
+	private ObjectInputStream ouvrirFileRead( String cheminFile ) {
+		boolean valide = true;
+		Path chemin = null;
+		String cheminAbsolu;
+		ObjectInputStream file = null;
+
+		// Crï¿½ation du chemin.
+		try {
+			chemin = Paths.get( cheminFile );
+		} catch ( InvalidPathException errNomFichier ) {
+			JOptionPane.showMessageDialog( this, "Erreur le nom de fichier contient des caractï¿½res invalides",
+					"Erreur de lecture", JOptionPane.ERROR_MESSAGE );
+			valide = false;
+		}
+
+		if ( valide ) {
+			cheminAbsolu = chemin.toAbsolutePath().toString();
+			if ( Files.notExists( chemin ) ) {
+				System.out.println( "\nErreur, le fichier " + cheminAbsolu + " n'existe pas." );
+				valide = false;
+
+			} else if ( Files.exists( chemin ) ) {
+
+				if ( !Files.isReadable( chemin ) ) {
+
+					System.out.println( "\nErreur, le fichier " + cheminAbsolu + " n'est pas permis en lecture." );
+					valide = false;
+				} else {
+
+					try {
+						file = new ObjectInputStream( new FileInputStream( cheminFile ) );
+					} catch ( IOException errIO ) {
+						System.out.println( "\nErreur, impossible d'ouvrir " + "le fichier " + cheminAbsolu
+								+ " en mode lecture binaire." );
+						valide = false;
+					}
+
+				}
+			} else {
+				System.out.println(
+						"\nErreur, impossible de vérifier " + "l'existence du fichier " + cheminAbsolu + "." );
+				valide = false;
+			}
+		}
+		return file;
 	}
 }

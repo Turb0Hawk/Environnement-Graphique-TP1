@@ -117,8 +117,9 @@ public class InterfacePrincipale extends JFrame {
 	 * @param nom
 	 * méthode publique pour pouvoir cahnger le nom de la fenêtre.
 	 */
-	public void changerTitre( String nom ) {
+	@Override
+	public void setTitle( String nom ) {
 		nomFichier = nom;
-		this.setTitle( nomFichier + " - GnG not Gimp" );
+		super.setTitle( nomFichier + " - GnG not Gimp" );
 	}
 }
