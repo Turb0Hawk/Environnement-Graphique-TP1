@@ -2,11 +2,20 @@ package GnG;
 
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import outilsjava.OutilsLecture;
 
 /**
  * Fichier BarreMenu.java Description de la classe: Classe qui construit notre
@@ -77,16 +86,15 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 			ObjectOutputStream fic;
 			if ( choixFichier.showSaveDialog( null ) == JFileChooser.APPROVE_OPTION ) {
 
-				if ( ( fic = ouvrirFileWrite(
-						choixFichier.getSelectedFile().getAbsolutePath() + ".gng" ) ) != null ) {
+				if ( ( fic = ouvrirFileWrite( choixFichier.getSelectedFile().getAbsolutePath() + ".gng",
+						true ) ) != null ) {
 
 					try {
 						fic.writeInt( panneau.getFormes().size() );
 						for ( Forme forme : panneau.getFormes() ) {
 							forme.writeObject( fic );
 						}
-						fermerFileWrite( fic,
-								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 					} catch ( IOException e1 ) {
@@ -101,13 +109,13 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		} else if ( e.getSource() == itemSauv ) {
 
 			ObjectOutputStream fic;
-			if ( ( fic = ouvrirFileWrite( panneau.getFichierCourant() ) ) != null ) {
+			if ( ( fic = ouvrirFileWrite( panneau.getFichierCourant(), false ) ) != null ) {
 
 				try {
 					for ( Forme forme : panneau.getFormes() ) {
 						forme.writeObject( fic );
 					}
-					fermerFileWrite( fic, panneau.getFichierCourant() );
+					fermerFile( fic, panneau.getFichierCourant() );
 				} catch ( IOException e1 ) {
 					System.out.println( "Probléme d'ècriture du fichier " + panneau.getFrame().getName() );
 					JOptionPane.showMessageDialog( this, "Une Erreur de sauvegarde est survenue",
@@ -143,8 +151,7 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 							panneau.getFormes().add( temp );
 							panneau.repaint();
 						}
-						fermerFileRead( fic,
-								choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
+						fermerFile( fic, choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 						panneau.getFrame().changerTitre( choixFichier.getSelectedFile().getName() );
 						panneau.setFichierCourant( choixFichier.getSelectedFile().getAbsolutePath() + ".gng" );
 
@@ -173,28 +180,139 @@ public class BarreMenu extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void fermerFileWrite( ObjectOutputStream fic, String fichierCourant ) {
+	private void fermerFile( ObjectOutputStream fic, String fichierCourant ) {
 		try {
 			fic.close();
-		} catch (IOException erreur) {
-			JOptionPane.showMessageDialog( this, "Une Erreur est survenue lors de la fermeture du fichier",
-					"Erreur de fermeture", JOptionPane.ERROR_MESSAGE );
+		} catch ( IOException erreur ) {
+			JOptionPane.showMessageDialog( this,
+					"Une Erreur est survenue lors de la fermeture du fichier" + fichierCourant, "Erreur de fermeture",
+					JOptionPane.ERROR_MESSAGE );
 		}
-		
+
 	}
 
-	private ObjectOutputStream ouvrirFileWrite( String fichierCourant ) {
-		// TODO Auto-generated method stub
-		return null;
+	private void fermerFile( ObjectInputStream fic, String fichierCourant ) {
+		try {
+			fic.close();
+		} catch ( IOException erreur ) {
+			JOptionPane.showMessageDialog( this,
+					"Une Erreur est survenue lors de la fermeture du fichier" + fichierCourant, "Erreur de fermeture",
+					JOptionPane.ERROR_MESSAGE );
+		}
 	}
 
-	private void fermerFileRead( ObjectInputStream fic, String string ) {
-		// TODO Auto-generated method stub
-		
+	private ObjectOutputStream ouvrirFileWrite( String nomFile, boolean saveAs ) {
+		boolean valide = true;
+		Path chemin = null;
+		String absoluteChemin = "";// not drinkable lemayo
+		ObjectOutputStream file = null;
+
+		try {
+			chemin = Paths.get( nomFile );
+		} catch ( InvalidPathException errNomFichier ) {
+			JOptionPane.showMessageDialog( this, "Erreur le nom de fichier contient des caractères invalides",
+					"Erreur d'écriture", JOptionPane.ERROR_MESSAGE );
+			valide = false;
+		}
+
+		// plusieurs checks pour être vraiment suer que sa foire pas
+		if ( valide ) {
+			if ( valide ) {
+				absoluteChemin = chemin.toAbsolutePath().toString();
+
+				if ( Files.notExists( chemin ) ) {
+					valide = true;
+
+				} else if ( Files.exists( chemin ) ) {
+					if ( !Files.isRegularFile( chemin ) ) {
+						JOptionPane.showMessageDialog( this,
+								"\nErreur, le fichier " + absoluteChemin + " n'est pas un fichier supporté par GnG .",
+								"Erreur d'écriture", JOptionPane.ERROR_MESSAGE );
+						valide = false;
+					} else {
+						if ( !Files.isWritable( chemin ) ) {
+							valide = false;
+						} else {
+
+							if ( saveAs ) {
+								valide = ( JOptionPane.showConfirmDialog( this,
+										"Le fichier  \"" + nomFile
+												+ "\" contient déjà des données, voulez-vous l'écraser ?",
+										"Confirmation pour écraser",
+										JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION );
+							}
+						}
+					}
+				} else {
+					valide = false;
+				}
+			}
+
+			if ( valide ) {
+				try {
+					file = new ObjectOutputStream( new FileOutputStream( nomFile ) );
+				} catch ( IOException errIO ) {
+					JOptionPane.showMessageDialog( this,
+							"Une Erreur est survenue lors de l'écriture du fichier" + nomFile, "Erreur d'écriture",
+							JOptionPane.ERROR_MESSAGE );
+					valide = false;
+				}
+			}
+		}
+		return file;
 	}
 
-	private ObjectInputStream ouvrirFileRead( String absolutePath ) {
-		// TODO Auto-generated method stub
-		return null;
+	private ObjectInputStream ouvrirFileRead( String cheminFile ) {
+		boolean valide = true;
+		Path chemin = null;
+		String cheminAbsolu;
+		ObjectInputStream file = null;
+
+		// Création du chemin.
+		try {
+			chemin = Paths.get( cheminFile );
+		} catch ( InvalidPathException errNomFichier ) {
+			JOptionPane.showMessageDialog( this, "Erreur le nom de fichier contient des caractères invalides",
+					"Erreur de lecture", JOptionPane.ERROR_MESSAGE );
+			valide = false;
+		}
+
+		if ( valide ) {
+			cheminAbsolu = chemin.toAbsolutePath().toString();
+			if ( Files.notExists( chemin ) ) {
+				System.out.println( "\nErreur, le fichier " + cheminAbsolu + " n'existe pas." );
+				valide = false;
+
+			} else if ( Files.exists( chemin ) ) {
+				if ( !Files.isRegularFile( chemin ) ) {
+
+					JOptionPane.showMessageDialog( this,
+							"\nErreur, le fichier " + cheminAbsolu + " n'est pas un fichier supporté par GnG .",
+							"Erreur d'écriture", JOptionPane.ERROR_MESSAGE );
+					valide = false;
+				} else {
+
+					if ( !Files.isReadable( chemin ) ) {
+
+						System.out.println( "\nErreur, le fichier " + cheminAbsolu + " n'est pas permis en lecture." );
+						valide = false;
+					} else {
+
+						try {
+							file = new ObjectInputStream( new FileInputStream( cheminFile ) );
+						} catch ( IOException errIO ) {
+							System.out.println( "\nErreur, impossible d'ouvrir " + "le fichier " + cheminAbsolu
+									+ " en mode lecture binaire." );
+							valide = false;
+						}
+					}
+				}
+			} else {
+				System.out.println(
+						"\nErreur, impossible de vérifier " + "l'existence du fichier " + cheminAbsolu + "." );
+				valide = false;
+			}
+		}
+		return file;
 	}
 }
